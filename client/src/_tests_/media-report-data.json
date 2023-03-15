@@ -1,0 +1,68 @@
+[
+    {
+        "name": "Media 1",
+        "contentLink": "12345",
+        "editUrl": "https://www.google.com",
+        "publicUrl": "",
+        "hierarchy": [
+            {
+                "key": "123",
+                "value": "Test"
+            },
+            {
+                "key": "1234",
+                "value": "Test2"
+            },
+            {
+                "key": "12345",
+                "value": "Test3"
+            }
+        ],
+        "lastModified": "",
+        "thumbnailUrl": "",
+        "size": 1000,
+        "isLocalContent": true,
+        "references": [
+            {
+                "contentLink": "123",
+                "name": "test 1",
+                "editUrl": "https://google.com"
+            },
+            {
+                "contentLink": "123a",
+                "name": "test 2",
+                "editUrl": "https://google.com"
+            },
+            {
+                "contentLink": "123b",
+                "name": "test 3",
+                "editUrl": "https://google.com"
+            }
+        ]
+    },
+    {
+        "name": "Media 2",
+        "contentLink": "12345b",
+        "editUrl": "https://www.google.com",
+        "publicUrl": "",
+        "hierarchy": [
+            {
+                "key": "123",
+                "value": "Test"
+            },
+            {
+                "key": "1234",
+                "value": "Test2"
+            },
+            {
+                "key": "12345",
+                "value": "Test3"
+            }
+        ],
+        "lastModified": "",
+        "thumbnailUrl": "",
+        "size": 2000,
+        "isLocalContent": false,
+        "references": []
+    }
+]
