@@ -1,0 +1,14 @@
+2023-03-15 08:58:44.312 +01:00 [WRN] Database connection is configured to allow MultipleActiveResultSets. Consider disable MultipleActiveResultSets for better performance.
+2023-03-15 08:58:49.423 +01:00 [WRN] Cache cleared
+2023-03-15 08:58:49.429 +01:00 [WRN] Cache cleared
+2023-03-15 08:58:49.435 +01:00 [WRN] Cache cleared
+2023-03-15 08:58:49.437 +01:00 [WRN] Cache cleared
+2023-03-15 08:58:49.442 +01:00 [WRN] Cache cleared
+2023-03-15 08:58:49.444 +01:00 [WRN] Cache cleared
+2023-03-15 08:58:49.448 +01:00 [WRN] Cache cleared
+2023-03-15 08:58:49.449 +01:00 [WRN] Cache cleared
+2023-03-15 08:58:58.078 +01:00 [WRN] Cache cleared (remote only)
+2023-03-15 08:58:58.899 +01:00 [WRN] Access to the admin user registration is enabled. Following behaviors were evaluated '"Enabled, LocalRequestsOnly"'.
+2023-03-15 09:39:33.023 +01:00 [WRN] Access to the admin user registration is enabled. Following behaviors were evaluated '"Enabled, LocalRequestsOnly"'.
+2023-03-15 09:39:34.770 +01:00 [WRN] Cache cleared (remote only)
+2023-03-15 09:39:34.801 +01:00 [WRN] Cache cleared (remote only)
