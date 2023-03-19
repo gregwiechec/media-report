@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <Import Project="..\..\build\common.props" />
     <Import Project="..\..\build\nuspec.props" />
     <PropertyGroup>
@@ -11,9 +11,25 @@
         <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
         <Version>1.0.0</Version>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="EPiServer.CMS.AspNetCore.Templating" Version="12.13.1" />
-        <PackageReference Include="EPiServer.CMS.UI.Core" Version="12.17.1" />
-        <PackageReference Include="EPiServer.CMS.AspNetCore.HtmlHelpers" Version="12.13.1" />
+      <None Remove="MediaReport.Views\Views\Shared\Index.cshtml" />
     </ItemGroup>
+    <ItemGroup>
+      <Content Include="MediaReport.Views\Views\Shared\Index.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+    </ItemGroup>
+	<ItemGroup>
+        <PackageReference Include="EPiServer.CMS.UI.Core" />
+    </ItemGroup>
+	<ItemGroup>
+	  <Folder Include="ClientResources\" />
+	</ItemGroup>
 </Project>

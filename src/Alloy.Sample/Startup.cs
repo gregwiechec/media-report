@@ -1,4 +1,4 @@
-using AlloyMvcTemplates.Extensions;
+﻿using AlloyMvcTemplates.Extensions;
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Data;
 using EPiServer.DependencyInjection;
@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using Alloy.Sample;
 using EPiServer.Scheduler;
 using EPiServer.Cms.TinyMce;
 using EPiServer.Web.Mvc.Html;
@@ -19,6 +20,7 @@ using EPiServer.Cms.UI.Admin;
 using EPiServer.Cms.UI.VisitorGroups;
 using EPiServer.Cms.Shell.UI;
 using EPiServer.Web.Mvc;
+using MediaReport;
 
 
 namespace EPiServer.Templates.Alloy.Mvc
@@ -57,7 +59,7 @@ namespace EPiServer.Templates.Alloy.Mvc
 
             if (_webHostingEnvironment.IsDevelopment())
             {
-                
+                services.AddUIMappedFileProviders(_webHostingEnvironment.ContentRootPath, @"..\..\");
                 services.Configure<ClientResourceOptions>(uiOptions =>
                 {
                     uiOptions.Debug = true;
@@ -73,6 +75,7 @@ namespace EPiServer.Templates.Alloy.Mvc
                 .AddAdmin()
                 .AddVisitorGroupsUI()
                 .AddTinyMce()
+                .AddMediaReport()
                 .AddAdminUserRegistration(options => options.Behavior = RegisterAdminUserBehaviors.Enabled |
                                                                         RegisterAdminUserBehaviors.LocalRequestsOnly);
             services.AddCmsTagHelpers();

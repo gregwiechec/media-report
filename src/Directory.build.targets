@@ -2,5 +2,5 @@
   <Target Name="VSTestIfTestProject">
     <CallTarget Targets="VSTest" Condition="'$(IsTestProject)' == 'true'" />
   </Target>
-  <Import Project="build\dependencies.props" />
+  <Import Project="..\build\dependencies.props" />
 </Project>
