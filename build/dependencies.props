@@ -1,6 +1,6 @@
 <Project>
     <PropertyGroup>
-        <CmsUIVersion>12.1.0</CmsUIVersion>
+        <CmsUIVersion>12.17.1</CmsUIVersion>
         <RuntimeCompilationVersion>5.0.12</RuntimeCompilationVersion>
     </PropertyGroup>
     <ItemGroup>
