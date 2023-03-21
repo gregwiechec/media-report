@@ -20,12 +20,22 @@ export default function ListFilter() {
         setReferences(newValue as number[]);
     };
 
+    const handleChangeIsLocal = (localContent: string) => {
+        setIsLocal(localContent);
+    };
+
+    const onSearch = () => {
+        alert("search");
+    };
+
     return (
-        <Grid container>
+        <Grid container alignItems="baseline" style={{ gap: 16 }}>
             <Grid item>
                 <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                     <div>Size: {0}</div>
-                    <Slider aria-label="Size" value={size} onChange={handleSize} valueLabelDisplay="auto" />
+                    <Slider aria-label="Size" value={size} onChange={handleSize} valueLabelDisplay="auto" sx={{
+                        width: 300
+                    }}/>
                     <div>{5000}</div>
                 </Stack>
             </Grid>
@@ -37,7 +47,9 @@ export default function ListFilter() {
                         aria-label="References"
                         value={references}
                         valueLabelDisplay="auto"
-                        onChange={handleReferences}
+                        onChange={handleReferences} sx={{
+                        width: 300
+                    }}
                     />
                     <div>{5000}</div>
                 </Stack>
@@ -49,7 +61,7 @@ export default function ListFilter() {
                     id="demo-simple-select"
                     value={isLocal}
                     label="Age"
-                    onChange={(event) => setIsLocal(event.target.value)}
+                    onChange={(event) => handleChangeIsLocal(event.target.value)}
                 >
                     {localFilterOptions.map((x) => (
                         <MenuItem key={x} value={x}>
@@ -59,7 +71,7 @@ export default function ListFilter() {
                 </Select>
             </Grid>
             <Grid item>
-                <Button variant="contained">Search</Button>
+                <Button variant="contained" onClick={onSearch}>Search</Button>
             </Grid>
         </Grid>
     );

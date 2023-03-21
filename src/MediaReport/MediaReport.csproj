@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <Import Project="..\..\build\common.props" />
     <Import Project="..\..\build\nuspec.props" />
     <PropertyGroup>
@@ -18,9 +18,11 @@
       <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     </PropertyGroup>
     <ItemGroup>
+      <None Remove="MediaReport.Views\Views\Report\Index.cshtml" />
       <None Remove="MediaReport.Views\Views\Shared\Index.cshtml" />
     </ItemGroup>
     <ItemGroup>
+      <Content Include="MediaReport.Views\Views\Report\Index.cshtml" />
       <Content Include="MediaReport.Views\Views\Shared\Index.cshtml">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
