@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using EPiServer;
+﻿using EPiServer;
 using EPiServer.Cms.Shell.UI.Rest.Capabilities;
 using EPiServer.Cms.Shell.UI.Rest.Internal;
 using EPiServer.Core;
@@ -44,6 +41,7 @@ public class MediaReportScheduledJob : ScheduledJobBase
 
     public override string Execute()
     {
+        var countProcessedItems = 0;
         _isStopped = false;
 
         var updatedList = new List<ContentReference>();
@@ -54,6 +52,7 @@ public class MediaReportScheduledJob : ScheduledJobBase
         var mediaList = _mediaLoader.GetAllMedia();
         foreach (var content in mediaList)
         {
+            countProcessedItems++;
             if (_isStopped)
             {
                 return "The job was stopped";
@@ -70,6 +69,11 @@ public class MediaReportScheduledJob : ScheduledJobBase
                 _isLocalContent.IsCapable(content), references, mediaSize.width, mediaSize.height);
 
             UpdateItemsSum(itemsSum, mediaSize.size, modifiedDate, references);
+
+            if (countProcessedItems % 100 == 0)
+            {
+                OnStatusChanged($"Processing media items ({countProcessedItems})");
+            }
         }
         _mediaReportItemsSumDdsRepository.SetSum(itemsSum);
 
@@ -91,8 +95,7 @@ public class MediaReportScheduledJob : ScheduledJobBase
             }
         }
 
-        //TODO: media report add statuses
-        return "Job completed";
+        return $"Job completed ({countProcessedItems} media content processed)";
     }
 
     private void UpdateItemsSum(MediaReportItemsSum itemsSum, long mediaSize, DateTime? modifiedDate, List<ContentReference> references)
