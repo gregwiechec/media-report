@@ -9,12 +9,15 @@ namespace AlloyMvcTemplates.Business.Plugins
     {
         private MediaDtoConverter _mediaDtoConverter;
         private IMediaReportDdsRepository _mediaReportDdsRepository;
+        private IMediaReportItemsSumDdsRepository _mediaReportItemsSumDdsRepository;
 
         public ReportController(MediaDtoConverter mediaDtoConverter,
-            IMediaReportDdsRepository mediaReportDdsRepository)
+            IMediaReportDdsRepository mediaReportDdsRepository,
+            IMediaReportItemsSumDdsRepository mediaReportItemsSumDdsRepository)
         {
             _mediaDtoConverter = mediaDtoConverter;
             _mediaReportDdsRepository = mediaReportDdsRepository;
+            _mediaReportItemsSumDdsRepository = mediaReportItemsSumDdsRepository;
         }
 
         public IActionResult Index()
@@ -28,10 +31,12 @@ namespace AlloyMvcTemplates.Business.Plugins
             var items = _mediaReportDdsRepository.Search(sizeFrom, sizeTo, isLocalContent,
                 pageIndex, pageSize, fromNumberOfReferences, toNumberOfReferences, out int totalCount).ToList();
             var result = items.Select(_mediaDtoConverter.Convert).ToList();
-            return new JsonDataResult(new { items = result, totalCount = totalCount });
+
+            var mediaReportItemsSum = _mediaReportItemsSumDdsRepository.GetSum();
+
+            return new JsonDataResult(new {items = result, sum = mediaReportItemsSum, totalCount});
         }
     }
 }
-//TODO: send items sum to client
 //TODO: implement filters
 //TODO: add paging
