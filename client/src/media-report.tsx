@@ -1,21 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-    Grid,
-    Link,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Tooltip,
-} from "@mui/material";
+import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
-import { MediaItemDto } from "./models";
+import { FilterRange, MediaItemDto } from "./models";
 import Path from "./path";
 import { formatBytes } from "./format-bytes";
-import ListFilter from "./list-filter";
+import ListFilter, { OnFilterChangeHandler } from "./list-filter";
 import References from "./References";
 import EditLink from "./EditLink";
 
@@ -56,12 +45,15 @@ const MediaItemRow = ({ item }: MediaItemRow) => {
 
 interface MediaReportComponent {
     items: MediaItemDto[];
+    filterRange: FilterRange;
+    totalItems: number;
+    onFilterChange: OnFilterChangeHandler;
 }
 
-export function MediaReportComponent({ items }: MediaReportComponent) {
+export function MediaReportComponent({ items, filterRange, totalItems, onFilterChange }: MediaReportComponent) {
     return (
         <>
-            <ListFilter />
+            <ListFilter filterRange={filterRange} onFilterChange={onFilterChange} />
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -85,26 +77,60 @@ export function MediaReportComponent({ items }: MediaReportComponent) {
         </>
     );
 }
+//TODO: media report paging
 
 const MediaReport = () => {
     const [mediaItems, setMediaItems] = useState([]);
+    const [filterRange, setFilterRange] = useState<FilterRange>({
+        minSize: 0,
+        maxSize: 0,
+        minReferences: 0,
+        maxReferences: 0,
+        minModifiedDate: new Date(),
+        maxModifiedDate: new Date(),
+    });
+    const [totalItems, setTotalItems] = useState(0);
 
-    useEffect(() => {
+    const refreshItems = () => {
         const xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             console.log("loading items");
             if (xhr.readyState === 4 && xhr.status === 200) {
                 const response = JSON.parse(xhr.response);
                 setMediaItems(response.items);
-                //TODO: media report paging
+                setFilterRange(response.filterRange);
+                setTotalItems(response.totalItems);
             }
         };
         xhr.open("get", "/MediaReport/GetMedia");
         xhr.setRequestHeader("Accept", "application/json");
         xhr.send();
+    };
+
+    useEffect(() => {
+        refreshItems();
     }, []);
 
-    return <MediaReportComponent items={mediaItems} />;
+    const onFilterChange = (
+        minSize: number,
+        maxSize: number,
+        minReferences: number,
+        maxReferences: number,
+        isLocal?: boolean
+    ) => {
+        alert(minSize);
+        //TODO: implement filters
+        refreshItems();
+    };
+
+    return (
+        <MediaReportComponent
+            items={mediaItems}
+            filterRange={filterRange}
+            totalItems={totalItems}
+            onFilterChange={onFilterChange}
+        />
+    );
 };
 
 export default MediaReport;
