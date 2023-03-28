@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { MediaReportComponent } from "./media-report";
-import data from "./_tests_/media-report-data.json";
+import data from "./__tests__/media-report-data.json";
 import { FilterRange } from "./models";
 
 export default {
