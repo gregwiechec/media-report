@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Grid, MenuItem, Select, Slider, Stack } from "@mui/material";
+import { Button, Grid, MenuItem, Select, Slider, Typography } from "@mui/material";
 import { FilterRange } from "./models";
 import { formatBytes } from "./format-bytes";
 
@@ -19,6 +19,28 @@ export type OnFilterChangeHandler = (
 interface ListFilter {
     filterRange: FilterRange;
     onFilterChange: OnFilterChangeHandler;
+}
+
+interface FilterControl {
+    label: string;
+    minValue?: string;
+    maxValue?: string;
+    children: any;
+}
+
+function FilterControl({ label, minValue, maxValue, children }: FilterControl) {
+    return (
+        <label>
+            <Grid container gap={1} alignItems="center">
+                <Grid item>
+                    <Typography fontWeight="bold">{label}:</Typography>
+                </Grid>
+                {minValue && <Grid item>{minValue}</Grid>}
+                <Grid item>{children}</Grid>
+                {maxValue && <Grid item>{maxValue}</Grid>}
+            </Grid>
+        </label>
+    );
 }
 
 export default function ListFilter({ filterRange, onFilterChange }: ListFilter) {
@@ -69,11 +91,14 @@ export default function ListFilter({ filterRange, onFilterChange }: ListFilter) 
     };
 
     return (
-        <Grid container alignItems="baseline" style={{ gap: 16 }}>
+        <Grid container alignItems="baseline" gap={3}>
             {filterRange?.maxSize > 0 && (
                 <Grid item>
-                    <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                        <div>Size: {formatBytes(filterRange.minSize)}</div>
+                    <FilterControl
+                        label="Size"
+                        minValue={formatBytes(filterRange.minSize)}
+                        maxValue={formatBytes(filterRange.maxSize)}
+                    >
                         <Slider
                             aria-label="Size"
                             value={size}
@@ -81,20 +106,23 @@ export default function ListFilter({ filterRange, onFilterChange }: ListFilter) 
                             valueLabelDisplay="auto"
                             valueLabelFormat={(value: number) => formatBytes(value)}
                             sx={{
-                                width: 300,
+                                width: 250,
+                                marginX: 2
                             }}
                             min={filterRange.minSize}
                             max={filterRange.maxSize}
                         />
-                        <div>{formatBytes(filterRange.maxSize)}</div>
-                    </Stack>
+                    </FilterControl>
                 </Grid>
             )}
 
             {filterRange?.maxReferences > 0 && (
                 <Grid item>
-                    <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                        <div>References: {filterRange.minReferences}</div>
+                    <FilterControl
+                        label="References"
+                        minValue={filterRange.minReferences.toString()}
+                        maxValue={filterRange.maxReferences.toString()}
+                    >
                         <Slider
                             aria-label="References"
                             value={references}
@@ -103,28 +131,34 @@ export default function ListFilter({ filterRange, onFilterChange }: ListFilter) 
                             min={filterRange.minReferences}
                             max={filterRange.maxReferences}
                             sx={{
-                                width: 300,
+                                width: 250,
+                                marginX: 2
                             }}
                         />
-                        <div>{filterRange.maxReferences}</div>
-                    </Stack>
+                    </FilterControl>
                 </Grid>
             )}
 
             <Grid item>
-                <Select
-                    labelId="media-report-filter-is-local"
-                    id="demo-simple-select"
-                    value={isLocal}
-                    label="Age"
-                    onChange={(event) => handleChangeIsLocal(event.target.value)}
-                >
-                    {localFilterOptions.map((x) => (
-                        <MenuItem key={x} value={x}>
-                            {x}
-                        </MenuItem>
-                    ))}
-                </Select>
+                <FilterControl label="Local content">
+                    <Select
+                        labelId="media-report-filter-is-local"
+                        id="demo-simple-select"
+                        value={isLocal}
+                        label="Age"
+                        autoWidth={false}
+                        sx={{
+                            width: 150,
+                        }}
+                        onChange={(event) => handleChangeIsLocal(event.target.value)}
+                    >
+                        {localFilterOptions.map((x) => (
+                            <MenuItem key={x} value={x}>
+                                {x}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FilterControl>
             </Grid>
             <Grid item>
                 <Button variant="contained" onClick={onSearch}>
@@ -134,6 +168,3 @@ export default function ListFilter({ filterRange, onFilterChange }: ListFilter) 
         </Grid>
     );
 }
-
-//TODO: custom labels for size
-//TODO: fixe width for local filter

@@ -56,7 +56,7 @@ LongList.args = {
             },
         ],
         thumbnailUrl: "",
-        lastModified: "",
+        lastModified: "2023-01-01 20:22",
         size: (index + 1) * 1000,
         isLocalContent: index % 5 === 1,
         references: [],
