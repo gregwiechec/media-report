@@ -6,7 +6,7 @@ import Path from "./path";
 import { formatBytes } from "./format-bytes";
 import ListFilter, { OnFilterChangeHandler } from "./list-filter";
 import References from "./References";
-import EditLink from "./EditLink";
+import EditLink from "./edit-link";
 import Paging, { ReportPageSize } from "./Paging";
 
 interface MediaItemRow {

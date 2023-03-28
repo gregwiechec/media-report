@@ -2,7 +2,7 @@ import React from "react";
 import { MediaItemReference } from "./models";
 import { Chip, Grid, Tooltip, tooltipClasses, TooltipProps } from "@mui/material";
 import LinkIcon from "@mui/icons-material/Link";
-import EditLink from "./EditLink";
+import EditLink from "./edit-link";
 import { styled } from "@mui/material/styles";
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
