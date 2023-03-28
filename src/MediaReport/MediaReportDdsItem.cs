@@ -1,9 +1,8 @@
-﻿using System;
-using EPiServer.Core;
+﻿using EPiServer.Core;
 using EPiServer.Data;
 using EPiServer.Data.Dynamic;
 
-namespace AlloyMvcTemplates.Business.Plugins;
+namespace Alloy.MediaReport;
 
 [EPiServerDataStore(AutomaticallyCreateStore = true, AutomaticallyRemapStore = true)]
 public class MediaReportDdsItem : IDynamicData

@@ -7,7 +7,7 @@ using EPiServer.PlugIn;
 using EPiServer.Scheduler;
 using EPiServer.ServiceLocation;
 
-namespace AlloyMvcTemplates.Business.Plugins;
+namespace Alloy.MediaReport;
 
 [ScheduledPlugIn(GUID = "7EFCDF8F-284B-4CCB-9C9D-98775EA018AC", DisplayName = "Media report", Restartable = true, DefaultEnabled = true,
     IntervalLength = 1, IntervalType = ScheduledIntervalType.Days)]

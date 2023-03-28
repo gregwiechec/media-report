@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
-using EPiServer.Data;
+﻿using EPiServer.Data;
 using EPiServer.Data.Dynamic;
 using EPiServer.ServiceLocation;
 
-namespace AlloyMvcTemplates.Business.Plugins;
+namespace Alloy.MediaReport;
 
 public class MediaReportItemsSum
 {

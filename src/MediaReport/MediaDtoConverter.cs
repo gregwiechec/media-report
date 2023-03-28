@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using EPiServer;
+﻿using EPiServer;
 using EPiServer.Cms.Shell;
 using EPiServer.Cms.Shell.UI.Rest.Capabilities;
 using EPiServer.Core;
 using EPiServer.Editor;
 using EPiServer.ServiceLocation;
 
-namespace AlloyMvcTemplates.Business.Plugins;
+namespace Alloy.MediaReport;
 
 [ServiceConfiguration(typeof(MediaDtoConverter))]
 public class MediaDtoConverter

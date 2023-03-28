@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using EPiServer.Core;
+﻿using EPiServer.Core;
 using EPiServer.Data.Dynamic;
 using EPiServer.ServiceLocation;
 
-namespace AlloyMvcTemplates.Business.Plugins;
+namespace Alloy.MediaReport;
 
 public interface IMediaReportDdsRepository
 {

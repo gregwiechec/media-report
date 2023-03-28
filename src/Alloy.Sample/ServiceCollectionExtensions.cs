@@ -10,11 +10,11 @@ namespace Alloy.Sample
         /// <internal-api/>
         public static IServiceCollection AddUIMappedFileProviders(this IServiceCollection services, string applicationRootPath, string uiSolutionRelativePath)
         {
-            /*var uiSolutionFolder = Path.Combine(applicationRootPath, uiSolutionRelativePath);
+            var uiSolutionFolder = Path.Combine(applicationRootPath, uiSolutionRelativePath);
             services.Configure<CompositeFileProviderOptions>(c =>
             {
-                c.BasePathFileProviders.Add(new MappingPhysicalFileProvider("/EPiServer/MediaReport", string.Empty, Path.Combine(uiSolutionFolder, @"src\MediaReport")));
-            });*/
+                c.BasePathFileProviders.Add(new MappingPhysicalFileProvider("/EPiServer/Alloy.MediaReport", string.Empty, Path.Combine(uiSolutionFolder, @"src\MediaReport")));
+            });
             return services;
         }
     }

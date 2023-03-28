@@ -24,7 +24,7 @@
     <None Remove="app_data\**\*.*" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MediaReport\MediaReport.csproj" />
+    <ProjectReference Include="..\MediaReport\Alloy.MediaReport.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="ClientResources\**\*.*">

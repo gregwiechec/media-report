@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using EPiServer;
+﻿using EPiServer;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
 
-namespace AlloyMvcTemplates.Business.Plugins;
+namespace Alloy.MediaReport;
 
 /// <summary>
 /// Load all IContentMedia from CMS

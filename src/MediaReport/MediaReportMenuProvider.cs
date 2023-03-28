@@ -1,7 +1,7 @@
 ﻿using EPiServer.Shell;
 using EPiServer.Shell.Navigation;
 
-namespace AlloyMvcTemplates.Business.Plugins;
+namespace Alloy.MediaReport;
 
 [MenuProvider]
 public class MediaReportMenuProvider : IMenuProvider

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using EPiServer.Core;
+﻿using EPiServer.Core;
 
-namespace AlloyMvcTemplates.Business.Plugins;
+namespace Alloy.MediaReport;
 
 public class MediaReferenceDto
 {

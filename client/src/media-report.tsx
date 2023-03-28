@@ -132,7 +132,8 @@ const MediaReport = () => {
             queryString.append("isLocalContent", currentFilterValue.current.isLocal?.toString());
         }
 
-        xhr.open("get", "/MediaReport/GetMedia?" + queryString.toString());
+        //TODO: url from server
+        xhr.open("get", "/Episerver/Alloy.MediaReport/Report/GetMedia?" + queryString.toString());
         xhr.setRequestHeader("Accept", "application/json");
         xhr.send();
     };
@@ -175,3 +176,5 @@ const MediaReport = () => {
 };
 
 export default MediaReport;
+
+//TODO: empty state

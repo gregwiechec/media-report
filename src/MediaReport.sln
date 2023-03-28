@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlloyMvcTemplates", "Alloy.Sample\AlloyMvcTemplates.csproj", "{CB271324-54EC-4218-8BAB-D9CBA02384E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaReport", "MediaReport\MediaReport.csproj", "{EC55FD1F-23FA-47B8-A6CF-AC2BB4DFF7C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alloy.MediaReport", "MediaReport\Alloy.MediaReport.csproj", "{EC55FD1F-23FA-47B8-A6CF-AC2BB4DFF7C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

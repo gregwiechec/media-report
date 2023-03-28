@@ -2,7 +2,7 @@
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
 
-namespace AlloyMvcTemplates.Business.Plugins;
+namespace Alloy.MediaReport;
 
 public interface IMediaSizeResolver
 {

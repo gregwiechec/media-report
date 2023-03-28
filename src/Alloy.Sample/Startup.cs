@@ -1,7 +1,6 @@
 ﻿using AlloyMvcTemplates.Extensions;
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Data;
-using EPiServer.DependencyInjection;
 using EPiServer.Framework.Web.Resources;
 using EPiServer.Shell.Telemetry;
 using EPiServer.Web.Routing;
@@ -11,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using Alloy.MediaReport;
 using Alloy.Sample;
 using EPiServer.Scheduler;
 using EPiServer.Cms.TinyMce;
@@ -19,8 +19,6 @@ using EPiServer.Cms.Shell;
 using EPiServer.Cms.UI.Admin;
 using EPiServer.Cms.UI.VisitorGroups;
 using EPiServer.Cms.Shell.UI;
-using EPiServer.Web.Mvc;
-using MediaReport;
 
 
 namespace EPiServer.Templates.Alloy.Mvc

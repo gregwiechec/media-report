@@ -1,7 +1,7 @@
 ﻿using EPiServer.Shell.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MediaReport
+namespace Alloy.MediaReport
 {
     public static class ServiceCollectionExtensions
     {
@@ -11,9 +11,9 @@ namespace MediaReport
                 pm =>
                 {
                     if (!pm.Items.Any(i =>
-                        i.Name.Equals("MediaReport", StringComparison.OrdinalIgnoreCase)))
+                        i.Name.Equals("Alloy.MediaReport", StringComparison.OrdinalIgnoreCase)))
                     {
-                        pm.Items.Add(new ModuleDetails { Name = "MediaReport", Assemblies = { typeof(ServiceCollectionExtensions).Assembly.GetName().Name }  });
+                        pm.Items.Add(new ModuleDetails { Name = "Alloy.MediaReport", Assemblies = { typeof(ServiceCollectionExtensions).Assembly.GetName().Name }  });
                     }
                 });
             return services;

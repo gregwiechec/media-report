@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AlloyMvcTemplates.Business.Plugins
+namespace Alloy.MediaReport
 {
     [Authorize(Roles = "CmsAdmin,WebAdmins,Administrators")]
     public class ReportController : Controller
