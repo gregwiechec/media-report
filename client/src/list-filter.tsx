@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Grid, MenuItem, Select, Slider, Stack } from "@mui/material";
 import { FilterRange } from "./models";
+import { formatBytes } from "./format-bytes";
 
 const IS_LOCAL_ALL = "All";
 const IS_LOCAL_ONLY_LOCAL = "Only local";
@@ -72,19 +73,20 @@ export default function ListFilter({ filterRange, onFilterChange }: ListFilter) 
             {filterRange?.maxSize > 0 && (
                 <Grid item>
                     <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                        <div>Size: {filterRange.minSize}</div>
+                        <div>Size: {formatBytes(filterRange.minSize)}</div>
                         <Slider
                             aria-label="Size"
                             value={size}
                             onChange={handleSize}
                             valueLabelDisplay="auto"
+                            valueLabelFormat={(value: number) => formatBytes(value)}
                             sx={{
                                 width: 300,
                             }}
                             min={filterRange.minSize}
                             max={filterRange.maxSize}
                         />
-                        <div>{filterRange.maxSize}</div>
+                        <div>{formatBytes(filterRange.maxSize)}</div>
                     </Stack>
                 </Grid>
             )}
