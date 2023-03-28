@@ -40,12 +40,12 @@ public class MediaReportDdsRepository : IMediaReportDdsRepository
         IQueryable<MediaReportDdsItem> items = store.Items<MediaReportDdsItem>();
         if (sizeFrom.HasValue)
         {
-            items = items.Where(x => x.Size > sizeFrom);
+            items = items.Where(x => x.Size >= sizeFrom);
         }
 
         if (sizeTo.HasValue)
         {
-            items = items.Where(x => x.Size < sizeTo);
+            items = items.Where(x => x.Size <= sizeTo);
         }
 
         if (isLocalContent.HasValue)

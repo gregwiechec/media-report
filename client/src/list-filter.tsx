@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Grid, MenuItem, Select, Slider, Typography } from "@mui/material";
 import { FilterRange } from "./models";
 import { formatBytes } from "./format-bytes";
 
 const IS_LOCAL_ALL = "All";
-const IS_LOCAL_ONLY_LOCAL = "Only local";
-const IS_LOCAL_ONLY_SHARED = "Only shared";
+const IS_LOCAL_ONLY_LOCAL = "Local";
+const IS_LOCAL_ONLY_SHARED = "Shared";
 const localFilterOptions: string[] = [IS_LOCAL_ALL, IS_LOCAL_ONLY_LOCAL, IS_LOCAL_ONLY_SHARED];
 
 export type OnFilterChangeHandler = (
@@ -47,19 +47,37 @@ export default function ListFilter({ filterRange, onFilterChange }: ListFilter) 
     const [isLocal, setIsLocal] = useState<string>(IS_LOCAL_ALL);
     const [size, setSize] = useState<number[]>([0, 10000]);
     const [references, setReferences] = useState<number[]>([20, 37]);
+    const currentFilterRange = useRef<FilterRange>({
+        minSize: 0,
+        maxSize: 0,
+        minReferences: 0,
+        maxReferences: 0,
+        minModifiedDate: undefined,
+        maxModifiedDate: undefined,
+    });
 
     useEffect(() => {
         if (!filterRange) {
             return;
         }
 
-        if (filterRange.maxSize > 0) {
+        const current = currentFilterRange.current;
+        if (
+            (filterRange.minSize !== current.minSize || filterRange.maxSize !== current.maxSize) &&
+            filterRange.maxSize > 0
+        ) {
             setSize([filterRange.minSize, filterRange.maxSize]);
         }
 
-        if (filterRange.maxReferences > 0) {
+        if (
+            (filterRange.minReferences !== current.minReferences ||
+                filterRange.maxReferences !== current.maxReferences) &&
+            filterRange.maxReferences > 0
+        ) {
             setReferences([filterRange.minReferences, filterRange.maxReferences]);
         }
+
+        currentFilterRange.current = Object.assign({}, filterRange);
     }, [filterRange]);
 
     const handleSize = (event: Event, newValue: number | number[]) => {
@@ -106,7 +124,7 @@ export default function ListFilter({ filterRange, onFilterChange }: ListFilter) 
                             valueLabelDisplay="auto"
                             valueLabelFormat={(value: number) => formatBytes(value)}
                             sx={{
-                                width: 250,
+                                width: 200,
                                 marginX: 2,
                             }}
                             min={filterRange.minSize}
@@ -131,7 +149,7 @@ export default function ListFilter({ filterRange, onFilterChange }: ListFilter) 
                             min={filterRange.minReferences}
                             max={filterRange.maxReferences}
                             sx={{
-                                width: 250,
+                                width: 200,
                                 marginX: 2,
                             }}
                         />
@@ -140,14 +158,14 @@ export default function ListFilter({ filterRange, onFilterChange }: ListFilter) 
             )}
 
             <Grid item>
-                <FilterControl label="Local content">
+                <FilterControl label="Local items">
                     <Select
                         labelId="media-report-filter-is-local"
                         id="demo-simple-select"
                         value={isLocal}
                         autoWidth={false}
                         sx={{
-                            width: 150,
+                            width: 100,
                         }}
                         onChange={(event) => handleChangeIsLocal(event.target.value)}
                     >

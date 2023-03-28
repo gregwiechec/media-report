@@ -29,7 +29,7 @@ export const Default = Template.bind({});
 Default.args = {
     items: data,
     filterRange: getDefaultFilter(),
-    totalItems: 500,
+    totalCount: 10,
     onFilterChange: (minSize) => alert(minSize),
     onPageChange: (pageIndex) => alert(pageIndex)
 };
@@ -62,7 +62,16 @@ LongList.args = {
         references: [],
     })),
     filterRange: getDefaultFilter(),
-    totalItems: 500,
+    totalCount: 500,
+    onFilterChange: (minSize) => alert(minSize),
+    onPageChange: (pageIndex: number) => alert(pageIndex)
+};
+
+export const Empty = Template.bind({});
+Empty.args = {
+    items: [],
+    filterRange: getDefaultFilter(),
+    totalCount: 0,
     onFilterChange: (minSize) => alert(minSize),
     onPageChange: (pageIndex: number) => alert(pageIndex)
 };

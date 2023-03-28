@@ -8,6 +8,7 @@ import ListFilter, { OnFilterChangeHandler } from "./list-filter";
 import References from "./References";
 import EditLink from "./edit-link";
 import Paging, { ReportPageSize } from "./Paging";
+import EmptyReport from "./empty-report";
 
 interface MediaItemRow {
     item: MediaItemDto;
@@ -47,7 +48,7 @@ const MediaItemRow = ({ item }: MediaItemRow) => {
 interface MediaReportComponent {
     items: MediaItemDto[];
     filterRange: FilterRange;
-    totalItems: number;
+    totalCount: number;
     onFilterChange: OnFilterChangeHandler;
     onPageChange: (pageIndex: number) => void;
 }
@@ -55,7 +56,7 @@ interface MediaReportComponent {
 export function MediaReportComponent({
     items,
     filterRange,
-    totalItems,
+    totalCount,
     onFilterChange,
     onPageChange,
 }: MediaReportComponent) {
@@ -66,29 +67,34 @@ export function MediaReportComponent({
                     <ListFilter filterRange={filterRange} onFilterChange={onFilterChange} />
                 </Grid>
             </Grid>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell/>
-                            <TableCell>Name</TableCell>
-                            <TableCell width={150}>Last modified</TableCell>
-                            <TableCell>Path</TableCell>
-                            <TableCell width={100}>Size</TableCell>
-                            <TableCell width={70}>Is Local</TableCell>
-                            <TableCell width={70}>Refs</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {(items || []).map((media) => (
-                            <MediaItemRow key={media.contentLink} item={media} />
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+
+            {totalCount === 0 && <EmptyReport />}
+
+            {totalCount > 0 && (
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell />
+                                <TableCell>Name</TableCell>
+                                <TableCell width={150}>Last modified</TableCell>
+                                <TableCell>Path</TableCell>
+                                <TableCell width={100}>Size</TableCell>
+                                <TableCell width={70}>Is Local</TableCell>
+                                <TableCell width={70}>Refs</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {(items || []).map((media) => (
+                                <MediaItemRow key={media.contentLink} item={media} />
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            )}
             <Grid container marginTop={2} justifyContent="flex-end">
                 <Grid item>
-                    <Paging totalItems={totalItems} onPageChange={onPageChange} />
+                    <Paging totalCount={totalCount} onPageChange={onPageChange} />
                 </Grid>
             </Grid>
         </>
@@ -105,7 +111,7 @@ const MediaReport = () => {
         minModifiedDate: new Date(),
         maxModifiedDate: new Date(),
     });
-    const [totalItems, setTotalItems] = useState(0);
+    const [totalCount, setTotalCount] = useState(0);
     const currentFilterValue = useRef<any>();
     const currentPageIndex = useRef(0);
 
@@ -117,7 +123,7 @@ const MediaReport = () => {
                 const response = JSON.parse(xhr.response);
                 setMediaItems(response.items);
                 setFilterRange(response.filterRange);
-                setTotalItems(response.totalItems);
+                setTotalCount(response.totalCount);
             }
         };
 
@@ -149,13 +155,13 @@ const MediaReport = () => {
         maxReferences: number,
         isLocal?: boolean
     ) => {
-        currentFilterValue.current = ({
+        currentFilterValue.current = {
             minSize,
             maxSize,
             minReferences,
             maxReferences,
-            isLocal
-        });
+            isLocal,
+        };
         refreshItems();
     };
 
@@ -168,7 +174,7 @@ const MediaReport = () => {
         <MediaReportComponent
             items={mediaItems}
             filterRange={filterRange}
-            totalItems={totalItems}
+            totalCount={totalCount}
             onFilterChange={onFilterChange}
             onPageChange={onPageChanged}
         />
@@ -177,4 +183,4 @@ const MediaReport = () => {
 
 export default MediaReport;
 
-//TODO: empty state
+//TODO: store search filter in query string

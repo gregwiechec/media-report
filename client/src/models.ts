@@ -2,8 +2,8 @@ export interface FilterRange {
     minSize: number;
     maxSize: number;
 
-    minModifiedDate: Date;
-    maxModifiedDate: Date;
+    minModifiedDate?: Date;
+    maxModifiedDate?: Date;
 
     minReferences: number;
     maxReferences: number;

@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="..\..\build\common.props" />
+    <Import Project="..\..\build\nuspec.props" />
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsPackable>true</IsPackable>
+        <OutputType>Library</OutputType>
+		<NuspecFile>MediaReport.nuspec</NuspecFile>
+        <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+        <Version>1.0.0</Version>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    </PropertyGroup>
+    <ItemGroup>
+      <Compile Remove="Alloy.MediaReport.Views\Views\Shared\**" />
+      <EmbeddedResource Remove="Alloy.MediaReport.Views\Views\Shared\**" />
+      <None Remove="Alloy.MediaReport.Views\Views\Shared\**" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Remove="Alloy.MediaReport.Views\Views\Report\Index.cshtml" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="Alloy.MediaReport.Views\Views\Report\Index.cshtml" />
+    </ItemGroup>
+	<ItemGroup>
+        <PackageReference Include="EPiServer.CMS.UI.Core" />
+    </ItemGroup>
+	<ItemGroup>
+	  <Folder Include="ClientResources\" />
+	</ItemGroup>
+</Project>

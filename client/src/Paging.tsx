@@ -2,16 +2,16 @@ import React from "react";
 import { Pagination } from "@mui/material";
 
 interface Paging {
-    totalItems: number;
+    totalCount: number;
     onPageChange: (pageIndex: number) => void;
 }
 
 export const ReportPageSize = 100;
 
-export default function Paging({ totalItems, onPageChange }: Paging) {
-    const pageCount = totalItems / ReportPageSize;
+export default function Paging({ totalCount, onPageChange }: Paging) {
+    const pageCount = totalCount / ReportPageSize;
 
-    if (pageCount < 0) {
+    if (pageCount <= 1) {
         return null;
     }
 
