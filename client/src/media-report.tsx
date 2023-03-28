@@ -7,6 +7,7 @@ import { formatBytes } from "./format-bytes";
 import ListFilter, { OnFilterChangeHandler } from "./list-filter";
 import References from "./References";
 import EditLink from "./EditLink";
+import Paging from "./Paging";
 
 interface MediaItemRow {
     item: MediaItemDto;
@@ -48,17 +49,29 @@ interface MediaReportComponent {
     filterRange: FilterRange;
     totalItems: number;
     onFilterChange: OnFilterChangeHandler;
+    onPageChange: (pageIndex: number) => void;
 }
 
-export function MediaReportComponent({ items, filterRange, totalItems, onFilterChange }: MediaReportComponent) {
+export function MediaReportComponent({
+    items,
+    filterRange,
+    totalItems,
+    onFilterChange,
+    onPageChange,
+}: MediaReportComponent) {
     return (
         <>
-            <ListFilter filterRange={filterRange} onFilterChange={onFilterChange} />
+            <Grid container marginBottom={1}>
+                <Grid item xs={12}>
+                    {" "}
+                    <ListFilter filterRange={filterRange} onFilterChange={onFilterChange} />
+                </Grid>
+            </Grid>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell></TableCell>
+                            <TableCell/>
                             <TableCell>Name</TableCell>
                             <TableCell>Last modified</TableCell>
                             <TableCell>Path</TableCell>
@@ -74,10 +87,14 @@ export function MediaReportComponent({ items, filterRange, totalItems, onFilterC
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Grid container marginTop={2} justifyContent="flex-end">
+                <Grid item>
+                    <Paging totalItems={totalItems} onPageChange={onPageChange} />
+                </Grid>
+            </Grid>
         </>
     );
 }
-//TODO: media report paging
 
 const MediaReport = () => {
     const [mediaItems, setMediaItems] = useState([]);
@@ -123,12 +140,18 @@ const MediaReport = () => {
         refreshItems();
     };
 
+    const onPageChanged = (pageIndex: number) => {
+        //TODO: media report paging
+        alert(pageIndex);
+    };
+
     return (
         <MediaReportComponent
             items={mediaItems}
             filterRange={filterRange}
             totalItems={totalItems}
             onFilterChange={onFilterChange}
+            onPageChange={onPageChanged}
         />
     );
 };

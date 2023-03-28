@@ -34,7 +34,7 @@ namespace AlloyMvcTemplates.Business.Plugins
 
             var mediaReportItemsSum = _mediaReportItemsSumDdsRepository.GetSum();
 
-            return new JsonDataResult(new {items = result, sum = mediaReportItemsSum, totalCount});
+            return new JsonDataResult(new {items = result, filterRange = mediaReportItemsSum, totalCount});
         }
     }
 }

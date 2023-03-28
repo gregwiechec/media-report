@@ -31,6 +31,7 @@ Default.args = {
     filterRange: getDefaultFilter(),
     totalItems: 500,
     onFilterChange: (minSize) => alert(minSize),
+    onPageChange: (pageIndex) => alert(pageIndex)
 };
 
 export const LongList = Template.bind({});
@@ -63,4 +64,5 @@ LongList.args = {
     filterRange: getDefaultFilter(),
     totalItems: 500,
     onFilterChange: (minSize) => alert(minSize),
+    onPageChange: (pageIndex: number) => alert(pageIndex)
 };
