@@ -107,7 +107,7 @@ export default function ListFilter({ filterRange, onFilterChange }: ListFilter) 
                             valueLabelFormat={(value: number) => formatBytes(value)}
                             sx={{
                                 width: 250,
-                                marginX: 2
+                                marginX: 2,
                             }}
                             min={filterRange.minSize}
                             max={filterRange.maxSize}
@@ -132,7 +132,7 @@ export default function ListFilter({ filterRange, onFilterChange }: ListFilter) 
                             max={filterRange.maxReferences}
                             sx={{
                                 width: 250,
-                                marginX: 2
+                                marginX: 2,
                             }}
                         />
                     </FilterControl>
@@ -145,7 +145,6 @@ export default function ListFilter({ filterRange, onFilterChange }: ListFilter) 
                         labelId="media-report-filter-is-local"
                         id="demo-simple-select"
                         value={isLocal}
-                        label="Age"
                         autoWidth={false}
                         sx={{
                             width: 150,

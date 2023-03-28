@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import { FilterRange, MediaItemDto } from "./models";
@@ -7,7 +7,7 @@ import { formatBytes } from "./format-bytes";
 import ListFilter, { OnFilterChangeHandler } from "./list-filter";
 import References from "./References";
 import EditLink from "./EditLink";
-import Paging from "./Paging";
+import Paging, { ReportPageSize } from "./Paging";
 
 interface MediaItemRow {
     item: MediaItemDto;
@@ -63,7 +63,6 @@ export function MediaReportComponent({
         <>
             <Grid container marginBottom={1}>
                 <Grid item xs={12}>
-                    {" "}
                     <ListFilter filterRange={filterRange} onFilterChange={onFilterChange} />
                 </Grid>
             </Grid>
@@ -73,11 +72,11 @@ export function MediaReportComponent({
                         <TableRow>
                             <TableCell/>
                             <TableCell>Name</TableCell>
-                            <TableCell>Last modified</TableCell>
+                            <TableCell width={150}>Last modified</TableCell>
                             <TableCell>Path</TableCell>
-                            <TableCell>Size</TableCell>
-                            <TableCell>Is Local</TableCell>
-                            <TableCell>References</TableCell>
+                            <TableCell width={100}>Size</TableCell>
+                            <TableCell width={70}>Is Local</TableCell>
+                            <TableCell width={70}>Refs</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -107,6 +106,8 @@ const MediaReport = () => {
         maxModifiedDate: new Date(),
     });
     const [totalItems, setTotalItems] = useState(0);
+    const currentFilterValue = useRef<any>();
+    const currentPageIndex = useRef(0);
 
     const refreshItems = () => {
         const xhr = new XMLHttpRequest();
@@ -119,7 +120,19 @@ const MediaReport = () => {
                 setTotalItems(response.totalItems);
             }
         };
-        xhr.open("get", "/MediaReport/GetMedia");
+
+        const queryString = new URLSearchParams();
+        queryString.append("pageIndex", currentPageIndex.current?.toString());
+        queryString.append("pageSize", ReportPageSize.toString());
+        if (currentFilterValue.current) {
+            queryString.append("sizeFrom", currentFilterValue.current.minSize?.toString());
+            queryString.append("sizeTo", currentFilterValue.current.maxSize?.toString());
+            queryString.append("fromNumberOfReferences", currentFilterValue.current.minReferences?.toString());
+            queryString.append("toNumberOfReferences", currentFilterValue.current.maxReferences?.toString());
+            queryString.append("isLocalContent", currentFilterValue.current.isLocal?.toString());
+        }
+
+        xhr.open("get", "/MediaReport/GetMedia?" + queryString.toString());
         xhr.setRequestHeader("Accept", "application/json");
         xhr.send();
     };
@@ -135,14 +148,19 @@ const MediaReport = () => {
         maxReferences: number,
         isLocal?: boolean
     ) => {
-        alert(minSize);
-        //TODO: implement filters
+        currentFilterValue.current = ({
+            minSize,
+            maxSize,
+            minReferences,
+            maxReferences,
+            isLocal
+        });
         refreshItems();
     };
 
     const onPageChanged = (pageIndex: number) => {
-        //TODO: media report paging
-        alert(pageIndex);
+        currentPageIndex.current = pageIndex;
+        refreshItems();
     };
 
     return (
