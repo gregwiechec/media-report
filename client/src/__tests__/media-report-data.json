@@ -3,7 +3,7 @@
         "name": "Media 1",
         "contentLink": "12345",
         "editUrl": "https://www.google.com",
-        "publicUrl": "",
+        "publicUrl": "https://loremflickr.com/320/240?random=1",
         "hierarchy": [
             {
                 "key": "123",
@@ -19,7 +19,7 @@
             }
         ],
         "lastModified": "",
-        "thumbnailUrl": "",
+        "thumbnailUrl": "https://loremflickr.com/50/50?random=1",
         "size": 1000,
         "isLocalContent": true,
         "references": [
@@ -44,7 +44,7 @@
         "name": "Media 2",
         "contentLink": "12345b",
         "editUrl": "https://www.google.com",
-        "publicUrl": "",
+        "publicUrl": "https://loremflickr.com/320/240?random=2",
         "hierarchy": [
             {
                 "key": "123",
@@ -60,7 +60,7 @@
             }
         ],
         "lastModified": "",
-        "thumbnailUrl": "",
+        "thumbnailUrl": "https://loremflickr.com/50/50?random=2",
         "size": 2000,
         "isLocalContent": false,
         "references": []

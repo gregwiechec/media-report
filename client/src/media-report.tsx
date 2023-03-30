@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from "@mui/material";
+import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import { FilterRange, MediaItemDto } from "./models";
 import Path from "./path";
@@ -9,6 +9,7 @@ import References from "./References";
 import EditLink from "./edit-link";
 import Paging, { ReportPageSize } from "./Paging";
 import EmptyReport from "./empty-report";
+import MediaTooltip from "./media-tooltip";
 
 interface MediaItemRow {
     item: MediaItemDto;
@@ -18,9 +19,7 @@ const MediaItemRow = ({ item }: MediaItemRow) => {
     return (
         <TableRow>
             <TableCell>
-                <Tooltip arrow title={<img src={item.publicUrl} />}>
-                    <img src={item.thumbnailUrl} />
-                </Tooltip>
+                <MediaTooltip publicUrl={item.publicUrl} thumbnailUrl={item.thumbnailUrl} />
             </TableCell>
             <TableCell component="th" scope="row">
                 <EditLink link={item} />

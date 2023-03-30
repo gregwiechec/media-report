@@ -55,7 +55,7 @@ LongList.args = {
                 value: "Test3",
             },
         ],
-        thumbnailUrl: "",
+        thumbnailUrl: "https://loremflickr.com/320/240?random=" + index,
         lastModified: "2023-01-01 20:22",
         size: (index + 1) * 1000,
         isLocalContent: index % 5 === 1,
