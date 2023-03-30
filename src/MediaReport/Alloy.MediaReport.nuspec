@@ -3,32 +3,31 @@
   <metadata>
     <id>Alloy.HideTabs</id>
     <version>$PackageVersion$</version>
-    <title>Alloy.HideTabs</title>
+    <title>Alloy.MediaReport</title>
     <authors>Grzegorz Wiecheć</authors>
     <owners>Grzegorz Wiecheć</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Allow to hide tab and properties based on conditions</description>
+    <description>Admin Mode plugin for displaying media statistics</description>
     <releaseNotes/>
     <copyright>Copyright 2022</copyright>
-    <tags>episerver optimizely</tags>
+    <tags>episerver optimizely media</tags>
     <license type="expression">MIT</license>
-    <projectUrl>https://nuget.optimizely.com/package/?id=Alloy.HideTabs</projectUrl>
+    <projectUrl>https://github.com/gregwiechec/media-reports</projectUrl>
     <dependencies>
-      <group targetFramework="net5.0">
+      <group targetFramework="net6.0">
         <dependency id="EPiServer.CMS.UI.Core" version="[$CmsUIVersion$, $CmsUINextMajorVersion$)" />
         <dependency id="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" version="[$RuntimeVersion$, $RuntimeNextMajorVersion$)" />
       </group>
     </dependencies>
     <contentFiles>
-      <files include="any/any/modules/_protected/alloy-hideTabs/alloy-hideTabs.zip" buildAction="None" copyToOutput="true"  />
+      <files include="any/any/modules/_protected/Alloy.MediaReport/Alloy.MediaReport.zip" buildAction="None" copyToOutput="true"  />
     </contentFiles>
   </metadata>
   <files>
-    <file src="src\Alloy.HideTabs\bin\$configuration$\Alloy.HideTabs.dll" target="lib\net5.0\" />
+    <file src="src\Alloy.MediaReport\bin\$configuration$\Alloy.MediaReport.dll" target="lib\net6.0\" />
 
-    <file src="out\alloy-hideTabs\alloy-hideTabs.zip" target="contentFiles\any\any\modules\_protected\alloy-hideTabs\" />
+    <file src="out\Alloy.MediaReport\Alloy.MediaReport.zip" target="contentFiles\any\any\modules\_protected\Alloy.MediaReport\" />
 
-    <file src="build\CopyZipFiles.targets" target="build\net5.0\Alloy.HideTabs.targets" />
-    <file src="src\Alloy.HideTabs\readme.txt" target="" />
+    <file src="build\CopyZipFiles.targets" target="build\net6.0\Alloy.MediaReport.targets" />
   </files>
 </package>

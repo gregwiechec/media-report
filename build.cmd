@@ -6,4 +6,7 @@ REM Build the C# solution.
 CALL dotnet build -c %CONFIGURATION%
 IF %errorlevel% NEQ 0 EXIT /B %errorlevel%
 
+buildClient
+IF %errorlevel% NEQ 0 EXIT /B %errorlevel%
+
 EXIT /B %ERRORLEVEL%
