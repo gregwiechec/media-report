@@ -1,6 +1,6 @@
 Param([string] $configuration = "Release")
 $workingDirectory = Get-Location
-$zip = "$workingDirectory\packages\7-Zip.CommandLine\18.1.0\tools\7za.exe"
+$zip = "$workingDirectory\build\7za.exe"
 
 # Set location to the Solution directory
 (Get-Item $PSScriptRoot).Parent.FullName | Push-Location
@@ -29,14 +29,14 @@ $runtimeNextMajorVersion = ($runtimeMajor.ToString() + ".0.0")
 Get-ChildItem -Path out\ -Exclude dtk | Remove-Item -Recurse -Force
 
 #copy assets approval reviews
-Copy-Item -Path src\Alloy.MediaReport\ClientResources\ -Destination out\Alloy.MediaReport\$version\ClientResources -recurse -Force
-Copy-Item src\Alloy.MediaReport\module.config out\Alloy.MediaReport
+Copy-Item -Path src\MediaReport\ClientResources\ -Destination out\Alloy.MediaReport\$version\ClientResources -recurse -Force
+Copy-Item src\MediaReport\module.config out\Alloy.MediaReport
 ((Get-Content -Path out\Alloy.MediaReport\module.config -Raw).TrimEnd() -Replace '=""', "=`"$version`"" ) | Set-Content -Path out\Alloy.MediaReport\module.config
 Set-Location $workingDirectory\out\Alloy.MediaReport
 Start-Process -NoNewWindow -Wait -FilePath $zip -ArgumentList "a", "Alloy.MediaReport.zip", "$version", "module.config"
 Set-Location $workingDirectory
 
 # Packaging public packages
-dotnet pack -c $configuration /p:PackageVersion=$version /p:CmsUIVersion=$cmsUIVersion /p:CmsUINextMajorVersion=$cmsUINextMajorVersion /p:RuntimeVersion=$runtimeVersion /p:RuntimeNextMajorVersion=$runtimeNextMajorVersion Alloy.MediaReport.sln
+dotnet pack -c $configuration /p:PackageVersion=$version /p:CmsUIVersion=$cmsUIVersion /p:CmsUINextMajorVersion=$cmsUINextMajorVersion /p:RuntimeVersion=$runtimeVersion /p:RuntimeNextMajorVersion=$runtimeNextMajorVersion src/MediaReport.sln
 
 Pop-Location

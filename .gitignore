@@ -352,3 +352,4 @@ MigrationBackup/
 src/Alloy.Sample/App_Data/blobs
 src/Alloy.Sample/App_Data/log*.txt
 src/MediaReport/ClientResources
+out/

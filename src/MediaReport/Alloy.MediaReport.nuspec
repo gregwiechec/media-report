@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>Alloy.HideTabs</id>
+    <id>Alloy.MediaReport</id>
     <version>$PackageVersion$</version>
     <title>Alloy.MediaReport</title>
     <authors>Grzegorz Wiecheć</authors>
@@ -24,10 +24,12 @@
     </contentFiles>
   </metadata>
   <files>
-    <file src="src\Alloy.MediaReport\bin\$configuration$\Alloy.MediaReport.dll" target="lib\net6.0\" />
+    <file src="src\MediaReport\bin\$configuration$\Alloy.MediaReport.dll" target="lib\net6.0\" />
 
     <file src="out\Alloy.MediaReport\Alloy.MediaReport.zip" target="contentFiles\any\any\modules\_protected\Alloy.MediaReport\" />
 
     <file src="build\CopyZipFiles.targets" target="build\net6.0\Alloy.MediaReport.targets" />
+	
+	<file src="src\MediaReport\readme.txt" target="" />
   </files>
 </package>

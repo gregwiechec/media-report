@@ -7,7 +7,7 @@
         <Nullable>enable</Nullable>
         <IsPackable>true</IsPackable>
         <OutputType>Library</OutputType>
-		<NuspecFile>MediaReport.nuspec</NuspecFile>
+		<NuspecFile>Alloy.MediaReport.nuspec</NuspecFile>
         <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
         <Version>1.0.0</Version>
     </PropertyGroup>
