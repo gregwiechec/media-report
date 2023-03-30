@@ -1,8 +1,17 @@
 import React from "react";
 import { MediaItemReference } from "./models";
-import { Chip, Grid, Tooltip, tooltipClasses, TooltipProps } from "@mui/material";
+import {
+    Chip,
+    Grid,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemText,
+    Tooltip,
+    tooltipClasses,
+    TooltipProps
+} from "@mui/material";
 import LinkIcon from "@mui/icons-material/Link";
-import EditLink from "./edit-link";
 import { styled } from "@mui/material/styles";
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -22,13 +31,15 @@ interface References {
 
 function LinkContent({ references }: References) {
     return (
-        <>
+        <List>
             {references.map((x) => (
-                <div key={x.contentLink}>
-                    <EditLink key={x.contentLink} link={x} />
-                </div>
+                <ListItem key={x.contentLink} disablePadding>
+                    <ListItemButton component="a" href={x.editUrl} target="_blank">
+                        <ListItemText primary={x.name} />
+                    </ListItemButton>
+                </ListItem>
             ))}
-        </>
+        </List>
     );
 }
 
