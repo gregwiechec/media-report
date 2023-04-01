@@ -50,7 +50,15 @@ public class MediaReportDdsRepository : IMediaReportDdsRepository
 
         if (isLocalContent.HasValue)
         {
-            items = items.Where(x => x.IsLocalContent == isLocalContent);
+            if (isLocalContent.Value)
+            {
+                items = items.Where(x => x.IsLocalContent);
+            }
+            else
+            {
+                items = items.Where(x => !x.IsLocalContent);
+            }
+            
         }
 
         if (fromNumberOfReferences.HasValue)

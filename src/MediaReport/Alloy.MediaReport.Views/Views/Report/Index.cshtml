@@ -1,9 +1,9 @@
-﻿@using EPiServer.Framework.Web.Resources
-@using EPiServer.Shell.Navigation
-
-@{
+﻿@{
     Layout = null;
 }
+
+@using EPiServer.Framework.Web.Resources
+@using EPiServer.Shell.Navigation
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,10 +31,8 @@
             </div>
         </div>
 
-    <script type="module" crossorigin src="~/js/index.js"></script>
-    aaaaaaaaaaaa
+        <script type="module" crossorigin src="~/js/index.js"></script>
         @ClientResources.RenderResources("media-report", new[] { ClientResourceType.Script }))
-        bbbbbbbbbbbbbbb
     </body>
 
 </html>

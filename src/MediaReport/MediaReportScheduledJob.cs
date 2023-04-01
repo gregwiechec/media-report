@@ -25,14 +25,14 @@ public class MediaReportScheduledJob : ScheduledJobBase
     private IContentLoader _contentLoader;
 
     public MediaReportScheduledJob(IMediaReportDdsRepository mediaReportDdsRepository, IMediaLoader mediaLoader,
-        IMediaSizeResolver mediaSizeResolver, IContentCapability isLocalContent,
+        IMediaSizeResolver mediaSizeResolver, IEnumerable<IContentCapability> capabilities,
         IContentLoader contentLoader, ReferencedContentResolver referencedContentResolver,
         IMediaReportItemsSumDdsRepository mediaReportItemsSumDdsRepository)
     {
         _mediaReportDdsRepository = mediaReportDdsRepository;
         _mediaLoader = mediaLoader;
         _mediaSizeResolver = mediaSizeResolver;
-        _isLocalContent = isLocalContent;
+        _isLocalContent = capabilities.Single(x => x.Key == "isLocalContent");
         _contentLoader = contentLoader;
         _referencedContentResolver = referencedContentResolver;
         _mediaReportItemsSumDdsRepository = mediaReportItemsSumDdsRepository;
@@ -65,8 +65,9 @@ public class MediaReportScheduledJob : ScheduledJobBase
             var references = softLinks.Select(x => x.ContentLink).ToList();
 
             var mediaSize = _mediaSizeResolver.GetImageInfo(content);
+            var isLocalContent = _isLocalContent.IsCapable(content);
             _mediaReportDdsRepository.CreateOrUpdate(content.ContentLink, modifiedDate, mediaSize.size,
-                _isLocalContent.IsCapable(content), references, mediaSize.width, mediaSize.height);
+                isLocalContent, references, mediaSize.width, mediaSize.height);
 
             UpdateItemsSum(itemsSum, mediaSize.size, modifiedDate, references);
 
