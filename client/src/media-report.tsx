@@ -1,5 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import {
+    Grid,
+    Paper,
+    SortDirection,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+} from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import { FilterRange, MediaItemDto } from "./models";
 import Path from "./path";
@@ -10,6 +20,7 @@ import EditLink from "./edit-link";
 import Paging, { ReportPageSize } from "./Paging";
 import EmptyReport from "./empty-report";
 import MediaTooltip from "./media-tooltip";
+import TableHeaderCell from "./table-header-cell";
 
 interface MediaItemRow {
     item: MediaItemDto;
@@ -50,6 +61,7 @@ interface MediaReportComponent {
     totalCount: number;
     onFilterChange: OnFilterChangeHandler;
     onPageChange: (pageIndex: number) => void;
+    onSortColumn: (sortOrder: string, orderDirection: string) => void;
 }
 
 export function MediaReportComponent({
@@ -58,7 +70,54 @@ export function MediaReportComponent({
     totalCount,
     onFilterChange,
     onPageChange,
+    onSortColumn,
 }: MediaReportComponent) {
+    const [orderBy, setOrderBy] = useState("");
+    const [orderDirection, setOrderDirection] = useState<SortDirection>("asc");
+    const onSort = (sortColumn: string) => {
+        let newSortDirection: SortDirection;
+        if (sortColumn === orderBy) {
+            newSortDirection = orderDirection === "asc" ? "desc" : "asc";
+        } else {
+            newSortDirection = "asc";
+        }
+        setOrderBy(sortColumn);
+        setOrderDirection(newSortDirection);
+        onSortColumn(sortColumn, newSortDirection);
+    };
+
+    const columns = [
+        {
+            name: "name",
+            label: "Name",
+        },
+        {
+            name: "modifiedDate",
+            label: "Last modified",
+            width: 150,
+        },
+        {
+            name: "path",
+            label: "Path",
+            isSortable: false,
+        },
+        {
+            name: "size",
+            label: "Size",
+            width: 100,
+        },
+        {
+            name: "isLocalContent",
+            label: "Is Local",
+            width: 70,
+        },
+        {
+            name: "numberOfReferences",
+            label: "Refs",
+            width: 70,
+        },
+    ];
+
     return (
         <>
             <Grid container marginBottom={1}>
@@ -75,12 +134,18 @@ export function MediaReportComponent({
                         <TableHead>
                             <TableRow>
                                 <TableCell />
-                                <TableCell>Name</TableCell>
-                                <TableCell width={150}>Last modified</TableCell>
-                                <TableCell>Path</TableCell>
-                                <TableCell width={100}>Size</TableCell>
-                                <TableCell width={70}>Is Local</TableCell>
-                                <TableCell width={70}>Refs</TableCell>
+                                {columns.map((x) => (
+                                    <TableHeaderCell
+                                        key={x.name}
+                                        columnName={x.name}
+                                        columnLabel={x.label}
+                                        orderBy={orderBy}
+                                        orderDirection={orderDirection}
+                                        onSort={onSort}
+                                        width={x.width}
+                                        isSortable={x.isSortable}
+                                    />
+                                ))}
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -113,6 +178,7 @@ const MediaReport = () => {
     const [totalCount, setTotalCount] = useState(0);
     const currentFilterValue = useRef<any>();
     const currentPageIndex = useRef(0);
+    const currentSortOrder = useRef<any>(null);
 
     const refreshItems = () => {
         const xhr = new XMLHttpRequest();
@@ -135,6 +201,8 @@ const MediaReport = () => {
             queryString.append("fromNumberOfReferences", currentFilterValue.current.minReferences?.toString());
             queryString.append("toNumberOfReferences", currentFilterValue.current.maxReferences?.toString());
             queryString.append("isLocalContent", currentFilterValue.current.isLocal?.toString());
+            queryString.append("sortBy", currentSortOrder.current.sortOrder?.toString());
+            queryString.append("sortOrder", currentSortOrder.current.orderDirection?.toString());
         }
 
         //TODO: url from server
@@ -164,6 +232,13 @@ const MediaReport = () => {
         refreshItems();
     };
 
+    const onSortColumn = (sortOrder: string, orderDirection: string) => {
+        currentSortOrder.current = {
+            sortOrder: sortOrder,
+            orderDirection: orderDirection
+        };
+    };
+
     const onPageChanged = (pageIndex: number) => {
         currentPageIndex.current = pageIndex;
         refreshItems();
@@ -176,6 +251,7 @@ const MediaReport = () => {
             totalCount={totalCount}
             onFilterChange={onFilterChange}
             onPageChange={onPageChanged}
+            onSortColumn={onSortColumn}
         />
     );
 };

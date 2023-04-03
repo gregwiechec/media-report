@@ -26,10 +26,10 @@ namespace Alloy.MediaReport
         }
 
         public JsonResult GetMedia(int? sizeFrom, int? sizeTo, bool? isLocalContent, int? pageIndex, int? pageSize,
-            int? fromNumberOfReferences, int? toNumberOfReferences)
+            int? fromNumberOfReferences, int? toNumberOfReferences, string sortBy, string sortOrder)
         {
             var items = _mediaReportDdsRepository.Search(sizeFrom, sizeTo, isLocalContent,
-                pageIndex, pageSize, fromNumberOfReferences, toNumberOfReferences, out var totalCount).ToList();
+                pageIndex, pageSize, fromNumberOfReferences, toNumberOfReferences, sortBy, sortOrder, out var totalCount).ToList();
             var result = items.Select(_mediaDtoConverter.Convert).ToList();
 
             var mediaReportItemsSum = _mediaReportItemsSumDdsRepository.GetSum();
