@@ -2,6 +2,7 @@
     {
         "name": "Media 1",
         "contentLink": "12345",
+        "contentTypeName": "test",
         "editUrl": "https://www.google.com",
         "publicUrl": "https://loremflickr.com/320/240?random=1",
         "hierarchy": [
@@ -43,6 +44,7 @@
     {
         "name": "Media 2",
         "contentLink": "12345b",
+        "contentTypeName": "test",
         "editUrl": "https://www.google.com",
         "publicUrl": "https://loremflickr.com/320/240?random=2",
         "hierarchy": [

@@ -108,7 +108,7 @@ export function MediaReportComponent({
         },
         {
             name: "isLocalContent",
-            label: "Is Local",
+            label: "Local",
             width: 70,
         },
         {
@@ -201,6 +201,8 @@ const MediaReport = () => {
             queryString.append("fromNumberOfReferences", currentFilterValue.current.minReferences?.toString());
             queryString.append("toNumberOfReferences", currentFilterValue.current.maxReferences?.toString());
             queryString.append("isLocalContent", currentFilterValue.current.isLocal?.toString());
+        }
+        if (currentSortOrder.current) {
             queryString.append("sortBy", currentSortOrder.current.sortOrder?.toString());
             queryString.append("sortOrder", currentSortOrder.current.orderDirection?.toString());
         }
@@ -237,6 +239,7 @@ const MediaReport = () => {
             sortOrder: sortOrder,
             orderDirection: orderDirection
         };
+        refreshItems();
     };
 
     const onPageChanged = (pageIndex: number) => {

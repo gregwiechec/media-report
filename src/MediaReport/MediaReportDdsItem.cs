@@ -10,7 +10,12 @@ public class MediaReportDdsItem : IDynamicData
     public Identity Id { get; set; }
 
     [EPiServerDataIndex]
-    public ContentReference ContentLink { get; set; }
+    public ContentReference ContentLink { get; set; } = ContentReference.EmptyReference;
+
+    /// <summary>
+    /// used only for sorting
+    /// </summary>
+    public string Name { get; set; } = "";
 
     public long Size { get; set; }
 
@@ -20,7 +25,7 @@ public class MediaReportDdsItem : IDynamicData
 
     public int Height { get; set; }
 
-    public string References { get; set; }
+    public string References { get; set; } = "";
 
     public int NumberOfReferences { get; set; }
 

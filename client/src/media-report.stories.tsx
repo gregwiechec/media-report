@@ -41,6 +41,7 @@ LongList.args = {
         contentLink: (index + 1).toString(),
         editUrl: "https://www.google.com",
         publicUrl: "",
+        contentTypeName: "test",
         hierarchy: [
             {
                 key: "123",

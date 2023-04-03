@@ -8,13 +8,14 @@ public interface IMediaReportDdsRepository
 {
     void Delete(ContentReference contentLink);
 
-    void CreateOrUpdate(ContentReference contentLink, DateTime? modifiedDate, long size, bool isLocalContent,
+    void CreateOrUpdate(ContentReference contentLink, string name, DateTime? modifiedDate, long size, bool isLocalContent,
         IEnumerable<ContentReference> references, int? height, int? width);
 
     IEnumerable<MediaReportDdsItem> ListAll();
 
     IEnumerable<MediaReportDdsItem> Search(int? sizeFrom, int? sizeTo, bool? isLocalContent, int? pageIndex,
-        int? pageSize, int? fromNumberOfReferences, int? toNumberOfReferences, out int totalCount);
+        int? pageSize, int? fromNumberOfReferences, int? toNumberOfReferences,
+        string sortBy, string sortOrder, out int totalCount);
 }
 
 [ServiceConfiguration(typeof(IMediaReportDdsRepository))]
@@ -34,7 +35,8 @@ public class MediaReportDdsRepository : IMediaReportDdsRepository
     }
 
     public IEnumerable<MediaReportDdsItem> Search(int? sizeFrom, int? sizeTo, bool? isLocalContent, int? pageIndex,
-        int? pageSize, int? fromNumberOfReferences, int? toNumberOfReferences, out int totalCount)
+        int? pageSize, int? fromNumberOfReferences, int? toNumberOfReferences,
+        string sortBy, string sortOrder, out int totalCount)
     {
         var store = GetStore();
         IQueryable<MediaReportDdsItem> items = store.Items<MediaReportDdsItem>();
@@ -73,6 +75,34 @@ public class MediaReportDdsRepository : IMediaReportDdsRepository
 
         totalCount = items.Count();
 
+        if (!string.IsNullOrWhiteSpace(sortBy))
+        {
+            if (sortOrder == "desc")
+            {
+                items = sortBy switch
+                {
+                    "name" => items.OrderByDescending(x => x.Name),
+                    "modifiedDate" => items.OrderByDescending(x => x.ModifiedDate),
+                    "size" => items.OrderByDescending(x => x.Size),
+                    "isLocalContent" => items.OrderByDescending(x => x.IsLocalContent),
+                    "numberOfReferences" => items.OrderByDescending(x => x.NumberOfReferences),
+                    _ => items
+                };
+            }
+            else
+            {
+                items = sortBy switch
+                {
+                    "name" => items.OrderBy(x => x.Name),
+                    "modifiedDate" => items.OrderBy(x => x.ModifiedDate),
+                    "size" => items.OrderBy(x => x.Size),
+                    "isLocalContent" => items.OrderBy(x => x.IsLocalContent),
+                    "numberOfReferences" => items.OrderBy(x => x.NumberOfReferences),
+                    _ => items
+                };
+            }
+        }
+
         if (pageSize.HasValue && pageIndex.HasValue)
         {
             items = items
@@ -94,7 +124,7 @@ public class MediaReportDdsRepository : IMediaReportDdsRepository
         store.Delete(item);
     }
 
-    public void CreateOrUpdate(ContentReference contentLink, DateTime? modifiedDate, long size, bool isLocalContent,
+    public void CreateOrUpdate(ContentReference contentLink, string name, DateTime? modifiedDate, long size, bool isLocalContent,
         IEnumerable<ContentReference> references, int? height, int? width)
     {
         var store = GetStore();
@@ -111,6 +141,7 @@ public class MediaReportDdsRepository : IMediaReportDdsRepository
 
         var referencesList = references.ToList();
 
+        item.Name = name;
         item.ModifiedDate = modifiedDate ?? DateTime.MinValue;
         item.Height = height ?? -1;
         item.Width = width ?? -1;

@@ -14,20 +14,16 @@ export interface MediaItemPath {
     value: string;
 }
 
-export interface IEditableContent {
-    name: string;
-    editUrl: string;
-}
-
-export interface MediaItemReference extends IEditableContent {
+export interface MediaItemReference {
     contentLink: string;
     name: string;
     editUrl: string;
 }
 
-export interface MediaItemDto extends IEditableContent {
+export interface MediaItemDto {
     contentLink: string;
     name: string;
+    contentTypeName: string;
     editUrl: string;
     publicUrl: string;
     thumbnailUrl: string;

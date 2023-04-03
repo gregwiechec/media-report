@@ -19,6 +19,7 @@ public class MediaDto
     public string MimeType { get; set; } = "";
     public long Size { get; set; }
     public ContentReference ContentLink { get; set; } = ContentReference.EmptyReference;
+    public string ContentTypeName { get; set; } = "";
     public string PublicUrl { get; set; } = "";
     public string ThumbnailUrl { get; set; } = "";
     public bool IsLocalContent { get; set; }

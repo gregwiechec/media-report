@@ -66,7 +66,7 @@ public class MediaReportScheduledJob : ScheduledJobBase
 
             var (size, width, height) = _mediaSizeResolver.GetImageInfo(content);
             var isLocalContent = _isLocalContent.IsCapable(content);
-            _mediaReportDdsRepository.CreateOrUpdate(content.ContentLink, modifiedDate, size,
+            _mediaReportDdsRepository.CreateOrUpdate(content.ContentLink, content.Name, modifiedDate, size,
                 isLocalContent, references, width, height);
 
             UpdateItemsSum(itemsSum, size, modifiedDate, references);

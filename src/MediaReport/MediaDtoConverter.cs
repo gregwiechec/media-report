@@ -2,6 +2,7 @@
 using EPiServer.Cms.Shell;
 using EPiServer.Cms.Shell.UI.Rest.Capabilities;
 using EPiServer.Core;
+using EPiServer.DataAbstraction;
 using EPiServer.Editor;
 using EPiServer.ServiceLocation;
 
@@ -12,10 +13,15 @@ public class MediaDtoConverter
 {
     private IContentLoader _contentLoader;
     private IContentCapability _isLocalContent;
+    private readonly IContentTypeRepository _contentTypeLoader;
+    private readonly List<(int id, string name)> _contentTypes = new List<(int id, string name)>();
 
-    public MediaDtoConverter(IEnumerable<IContentCapability> capabilities, IContentLoader contentLoader)
+    public MediaDtoConverter(IEnumerable<IContentCapability> capabilities,
+        IContentLoader contentLoader,
+        IContentTypeRepository contentTypeLoader)
     {
         _contentLoader = contentLoader;
+        _contentTypeLoader = contentTypeLoader;
         _isLocalContent = capabilities.Single(x => x.Key == "isLocalContent");
     }
 
@@ -35,6 +41,7 @@ public class MediaDtoConverter
         var result = new MediaDto
         {
             ContentLink = contentMedia.ContentLink,
+            ContentTypeName = GetContentTypeName(contentMedia.ContentTypeID),
             Name = contentMedia.Name,
             EditUrl = PageEditing.GetEditUrlForLanguage(contentMedia.ContentLink, contentMedia.LanguageBranch()),
             Size = ddsItem.Size,
@@ -55,7 +62,18 @@ public class MediaDtoConverter
         return result;
     }
 
-    private IEnumerable<MediaReferenceDto> ParseReferences(string[] references)
+
+    private string GetContentTypeName(int contentTypeId)
+    {
+        if (!_contentTypes.Any())
+        {
+            _contentTypes.AddRange(_contentTypeLoader.List().Select(x => (x.ID, x.LocalizedName)).ToList());
+        }
+
+        return _contentTypes.FirstOrDefault(x => x.id == contentTypeId).name;
+    }
+
+    private IEnumerable<MediaReferenceDto> ParseReferences(IEnumerable<string> references)
     {
         foreach (var reference in references)
         {

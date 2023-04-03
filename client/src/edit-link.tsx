@@ -1,18 +1,20 @@
 import React from "react";
 import { Link } from "@mui/material";
-import { IEditableContent } from "./models";
+import { MediaItemDto } from "./models";
 
 interface EditLink {
-    link: IEditableContent;
+    link: MediaItemDto;
 }
 
 export default function EditLink({ link }: EditLink) {
+    const title = link.contentLink + ", Content type: " + link.contentTypeName;
+
     if (!link.editUrl) {
-        return <>{link.name}</>;
+        return <span title={title}>{link.name}</span>;
     }
 
     return (
-        <Link href={link.editUrl} target="_blank" underline="none">
+        <Link href={link.editUrl} title={title} target="_blank" underline="none">
             {link.name}
         </Link>
     );
