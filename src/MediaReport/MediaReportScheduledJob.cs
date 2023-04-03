@@ -64,12 +64,12 @@ public class MediaReportScheduledJob : ScheduledJobBase
             var softLinks = _referencedContentResolver.GetReferenceList(content.ContentLink);
             var references = softLinks.Select(x => x.ContentLink).ToList();
 
-            var mediaSize = _mediaSizeResolver.GetImageInfo(content);
+            var (size, width, height) = _mediaSizeResolver.GetImageInfo(content);
             var isLocalContent = _isLocalContent.IsCapable(content);
-            _mediaReportDdsRepository.CreateOrUpdate(content.ContentLink, modifiedDate, mediaSize.size,
-                isLocalContent, references, mediaSize.width, mediaSize.height);
+            _mediaReportDdsRepository.CreateOrUpdate(content.ContentLink, modifiedDate, size,
+                isLocalContent, references, width, height);
 
-            UpdateItemsSum(itemsSum, mediaSize.size, modifiedDate, references);
+            UpdateItemsSum(itemsSum, size, modifiedDate, references);
 
             if (countProcessedItems % 100 == 0)
             {

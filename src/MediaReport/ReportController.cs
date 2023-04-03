@@ -7,9 +7,9 @@ namespace Alloy.MediaReport
     [Authorize(Roles = "CmsAdmin,WebAdmins,Administrators")]
     public class ReportController : Controller
     {
-        private MediaDtoConverter _mediaDtoConverter;
-        private IMediaReportDdsRepository _mediaReportDdsRepository;
-        private IMediaReportItemsSumDdsRepository _mediaReportItemsSumDdsRepository;
+        private readonly MediaDtoConverter _mediaDtoConverter;
+        private readonly IMediaReportDdsRepository _mediaReportDdsRepository;
+        private readonly IMediaReportItemsSumDdsRepository _mediaReportItemsSumDdsRepository;
 
         public ReportController(MediaDtoConverter mediaDtoConverter,
             IMediaReportDdsRepository mediaReportDdsRepository,
@@ -29,7 +29,7 @@ namespace Alloy.MediaReport
             int? fromNumberOfReferences, int? toNumberOfReferences)
         {
             var items = _mediaReportDdsRepository.Search(sizeFrom, sizeTo, isLocalContent,
-                pageIndex, pageSize, fromNumberOfReferences, toNumberOfReferences, out int totalCount).ToList();
+                pageIndex, pageSize, fromNumberOfReferences, toNumberOfReferences, out var totalCount).ToList();
             var result = items.Select(_mediaDtoConverter.Convert).ToList();
 
             var mediaReportItemsSum = _mediaReportItemsSumDdsRepository.GetSum();
@@ -38,5 +38,3 @@ namespace Alloy.MediaReport
         }
     }
 }
-//TODO: implement filters
-//TODO: add paging
