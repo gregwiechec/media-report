@@ -5,23 +5,29 @@ using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.Editor;
 using EPiServer.ServiceLocation;
+using EPiServer.Web.Routing;
+using EPiServer.Web;
 
 namespace Alloy.MediaReport;
 
 [ServiceConfiguration(typeof(MediaDtoConverter))]
 public class MediaDtoConverter
 {
-    private IContentLoader _contentLoader;
-    private IContentCapability _isLocalContent;
+    private readonly IContentLoader _contentLoader;
+    private readonly IContentCapability _isLocalContent;
     private readonly IContentTypeRepository _contentTypeLoader;
+    private readonly IUrlResolver _urlResolver;
+    private readonly ITemplateResolver _templateResolver;
     private readonly List<(int id, string name)> _contentTypes = new List<(int id, string name)>();
 
     public MediaDtoConverter(IEnumerable<IContentCapability> capabilities,
         IContentLoader contentLoader,
-        IContentTypeRepository contentTypeLoader)
+        IContentTypeRepository contentTypeLoader, IUrlResolver urlResolver, ITemplateResolver templateResolver)
     {
         _contentLoader = contentLoader;
         _contentTypeLoader = contentTypeLoader;
+        _urlResolver = urlResolver;
+        _templateResolver = templateResolver;
         _isLocalContent = capabilities.Single(x => x.Key == "isLocalContent");
     }
 
@@ -54,7 +60,7 @@ public class MediaDtoConverter
             Hierarchy = hierarchy,
             MimeType = contentMedia.MimeType,
             PublicUrl = contentMedia.PublicUrl(),
-            ThumbnailUrl = contentMedia.ThumbnailUrl(),
+            ThumbnailUrl = contentMedia.ThumbnailUrl(_urlResolver, _templateResolver),
             IsLocalContent = _isLocalContent.IsCapable(contentMedia),
         };
         using var stream = contentMedia.BinaryData.OpenRead();
