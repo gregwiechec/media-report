@@ -9,6 +9,7 @@ interface TableHeaderCell {
     onSort: (columnName: string) => void;
     width?: number;
     isSortable?: boolean;
+    title?: string;
 }
 
 export default function TableHeaderCell({
@@ -19,12 +20,13 @@ export default function TableHeaderCell({
     onSort,
     width,
     isSortable = true,
+    title = undefined
 }: TableHeaderCell) {
     if (!isSortable) {
         return <TableCell width={width}>{columnLabel}</TableCell>;
     }
     return (
-        <TableCell width={width} sortDirection={orderBy === columnName ? orderDirection : undefined}>
+        <TableCell width={width} title={title} sortDirection={orderBy === columnName ? orderDirection : undefined}>
             <TableSortLabel
                 active={orderBy === columnName}
                 direction={orderBy === columnName ? (orderDirection === false ? "asc" : orderDirection) : "asc"}

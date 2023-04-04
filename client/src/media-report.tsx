@@ -109,11 +109,13 @@ export function MediaReportComponent({
         {
             name: "isLocalContent",
             label: "Local",
+            title: "Is content stored in 'For this page' folder",
             width: 70,
         },
         {
             name: "numberOfReferences",
             label: "Refs",
+            title: "Number of references to content",
             width: 70,
         },
     ];
@@ -139,6 +141,7 @@ export function MediaReportComponent({
                                         key={x.name}
                                         columnName={x.name}
                                         columnLabel={x.label}
+                                        title={x.title}
                                         orderBy={orderBy}
                                         orderDirection={orderDirection}
                                         onSort={onSort}
