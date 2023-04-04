@@ -12,7 +12,7 @@
     <copyright>Copyright 2022</copyright>
     <tags>episerver optimizely media</tags>
     <license type="expression">MIT</license>
-    <projectUrl>https://github.com/gregwiechec/media-reports</projectUrl>
+    <projectUrl>https://github.com/gregwiechec/media-report</projectUrl>
     <dependencies>
       <group targetFramework="net6.0">
         <dependency id="EPiServer.CMS.UI.Core" version="[$CmsUIVersion$, $CmsUINextMajorVersion$)" />
