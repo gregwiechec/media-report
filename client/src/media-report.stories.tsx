@@ -61,6 +61,7 @@ LongList.args = {
         size: (index + 1) * 1000,
         isLocalContent: index % 5 === 1,
         references: [],
+        errorText: ""
     })),
     filterRange: getDefaultFilter(),
     totalCount: 500,

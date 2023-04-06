@@ -41,7 +41,11 @@ const MediaItemRow = ({ item }: MediaItemRow) => {
             </TableCell>
             <TableCell>
                 <Grid container direction="column">
-                    <Grid item>{formatBytes(item.size)}</Grid>
+                    {item.size > 0 ? (
+                        <Grid item>{formatBytes(item.size)}</Grid>
+                    ) : (
+                        <Grid item><div title={item.errorText}>Error</div></Grid>
+                    )}
                     {(item.height || 0) > 0 && (item.width || 0) > 0 && (
                         <Grid item>{`(${item.width}X${item.height})`}</Grid>
                     )}
@@ -240,7 +244,7 @@ const MediaReport = () => {
     const onSortColumn = (sortOrder: string, orderDirection: string) => {
         currentSortOrder.current = {
             sortOrder: sortOrder,
-            orderDirection: orderDirection
+            orderDirection: orderDirection,
         };
         refreshItems();
     };
