@@ -28,6 +28,7 @@ public class MediaDto
     public int Height { get; set; }
     public string LastModified { get; set; } = "";
     public IEnumerable<MediaReferenceDto> References { get; set; } = Enumerable.Empty<MediaReferenceDto>();
+    public string ErrorText { get; set; }
 
     // When true, then content exists in DDS and in CMS repository
     public bool Exists { get; set; }

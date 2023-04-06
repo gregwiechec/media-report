@@ -9,7 +9,7 @@ public interface IMediaReportDdsRepository
     void Delete(ContentReference contentLink);
 
     void CreateOrUpdate(ContentReference contentLink, string name, DateTime? modifiedDate, long size, bool isLocalContent,
-        IEnumerable<ContentReference> references, int? height, int? width);
+        IEnumerable<ContentReference> references, int? height, int? width, string errorText);
 
     IEnumerable<MediaReportDdsItem> ListAll();
 
@@ -125,7 +125,7 @@ public class MediaReportDdsRepository : IMediaReportDdsRepository
     }
 
     public void CreateOrUpdate(ContentReference contentLink, string name, DateTime? modifiedDate, long size, bool isLocalContent,
-        IEnumerable<ContentReference> references, int? height, int? width)
+        IEnumerable<ContentReference> references, int? height, int? width, string errorText)
     {
         var store = GetStore();
 
@@ -149,6 +149,7 @@ public class MediaReportDdsRepository : IMediaReportDdsRepository
         item.IsLocalContent = isLocalContent;
         item.References = string.Join(",", referencesList.Select(x => x.ToString()));
         item.NumberOfReferences = referencesList.Count;
+        item.ErrorText = errorText;
 
         store.Save(item);
     }

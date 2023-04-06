@@ -30,4 +30,9 @@ public class MediaReportDdsItem : IDynamicData
     public int NumberOfReferences { get; set; }
 
     public DateTime ModifiedDate { get; set; }
+
+    /// <summary>
+    /// Errors when indexing images
+    /// </summary>
+    public string ErrorText { get; set; }
 }

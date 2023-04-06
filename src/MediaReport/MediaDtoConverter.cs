@@ -62,9 +62,8 @@ public class MediaDtoConverter
             PublicUrl = contentMedia.PublicUrl(),
             ThumbnailUrl = contentMedia.ThumbnailUrl(_urlResolver, _templateResolver),
             IsLocalContent = _isLocalContent.IsCapable(contentMedia),
+            ErrorText = ddsItem.ErrorText
         };
-        using var stream = contentMedia.BinaryData.OpenRead();
-        result.Size = stream.Length;
         return result;
     }
 
