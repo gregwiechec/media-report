@@ -10,7 +10,7 @@
 		<NuspecFile>Alloy.MediaReport.nuspec</NuspecFile>
         <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
         <Version>1.0.0</Version>
-		<NoWarn>NU1803;</NoWarn>
+		<NoWarn>NU1803;CA1416;</NoWarn>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
       <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
