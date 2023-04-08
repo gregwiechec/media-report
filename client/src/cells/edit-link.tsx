@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "@mui/material";
-import { MediaItemDto } from "./models";
+import { MediaItemDto } from "../models";
 
 interface EditLink {
     link: MediaItemDto;

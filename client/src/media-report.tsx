@@ -12,15 +12,15 @@ import {
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import { FilterRange, MediaItemDto } from "./models";
-import Path from "./path";
-import { formatBytes } from "./format-bytes";
+import Path from "./cells/path";
 import ListFilter, { OnFilterChangeHandler } from "./list-filter";
 import References from "./References";
-import EditLink from "./edit-link";
+import EditLink from "./cells/edit-link";
 import Paging, { ReportPageSize } from "./Paging";
 import EmptyReport from "./empty-report";
 import MediaTooltip from "./media-tooltip";
 import TableHeaderCell from "./table-header-cell";
+import Size from "./cells/size";
 
 interface MediaItemRow {
     item: MediaItemDto;
@@ -40,16 +40,7 @@ const MediaItemRow = ({ item }: MediaItemRow) => {
                 <Path path={item.hierarchy} />
             </TableCell>
             <TableCell>
-                <Grid container direction="column">
-                    {item.size > 0 ? (
-                        <Grid item>{formatBytes(item.size)}</Grid>
-                    ) : (
-                        <Grid item><div title={item.errorText}>Error</div></Grid>
-                    )}
-                    {(item.height || 0) > 0 && (item.width || 0) > 0 && (
-                        <Grid item>{`(${item.width}X${item.height})`}</Grid>
-                    )}
-                </Grid>
+                <Size item={item} />
             </TableCell>
             <TableCell>{item.isLocalContent ? <CheckIcon /> : null}</TableCell>
             <TableCell>

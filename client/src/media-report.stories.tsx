@@ -78,9 +78,8 @@ Empty.args = {
     onPageChange: (pageIndex: number) => alert(pageIndex),
 };
 
-const getItem = (name: string, size = 100): MediaItemDto => ({
+const getItem = (name: string, size = 100, errorText = ""): MediaItemDto => ({
     name: name,
-    errorText: "",
     contentTypeName: "aaa",
     width: size == -1 ? 0 : 100,
     height: size === -1 ? 0 : 100,
@@ -89,6 +88,7 @@ const getItem = (name: string, size = 100): MediaItemDto => ({
     lastModified: "",
     isLocalContent: false,
     size: size,
+    errorText: errorText,
     hierarchy: [],
     thumbnailUrl: "",
     references: [],
@@ -97,7 +97,7 @@ const getItem = (name: string, size = 100): MediaItemDto => ({
 
 export const WithErrors = Template.bind({});
 WithErrors.args = {
-    items: [getItem("test"), getItem("test 2"), getItem("test 3", -1)],
+    items: [getItem("test"), getItem("test 2"), getItem("test 3", -1, "Cannot read file")],
     filterRange: getDefaultFilter(),
     totalCount: 100,
     onFilterChange: (minSize) => alert(minSize),

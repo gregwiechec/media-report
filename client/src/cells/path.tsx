@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { MediaItemPath } from "./models";
+import { MediaItemPath } from "../models";
 
 interface Path {
     path: MediaItemPath[];
