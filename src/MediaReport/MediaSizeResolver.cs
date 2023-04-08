@@ -6,6 +6,8 @@ namespace Alloy.MediaReport;
 
 public interface IMediaSizeResolver
 {
+    const int CannotReadMediaSize = -1;
+
     (long size, int? width, int? height, string errorText) GetImageInfo(IContentMedia media);
 }
 
@@ -35,15 +37,15 @@ public class MediaSizeResolver : IMediaSizeResolver
         }
         catch (DirectoryNotFoundException)
         {
-            return (-1, null, null, "Blob directory not found");
+            return (IMediaSizeResolver.CannotReadMediaSize, null, null, "Blob directory not found");
         }
         catch (FileNotFoundException)
         {
-            return (-1, null, null, "File not found");
+            return (IMediaSizeResolver.CannotReadMediaSize, null, null, "File not found");
         }
         catch (Exception)
         {
-            return (-1, null, null, "Unknown exception when opening the file");
+            return (IMediaSizeResolver.CannotReadMediaSize, null, null, "Unknown exception when opening the file");
         }
     }
 }

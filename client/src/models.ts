@@ -34,5 +34,5 @@ export interface MediaItemDto {
     lastModified: string;
     isLocalContent: boolean;
     references: MediaItemReference[];
-    errorText: string;
+    errorText?: string;
 }

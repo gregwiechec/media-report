@@ -42,7 +42,7 @@ public class MediaReportDdsRepository : IMediaReportDdsRepository
         IQueryable<MediaReportDdsItem> items = store.Items<MediaReportDdsItem>();
         if (sizeFrom.HasValue)
         {
-            items = items.Where(x => x.Size >= sizeFrom);
+            items = items.Where(x => x.Size >= sizeFrom || x.Size == IMediaSizeResolver.CannotReadMediaSize);
         }
 
         if (sizeTo.HasValue)

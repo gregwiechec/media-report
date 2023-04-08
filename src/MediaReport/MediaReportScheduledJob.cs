@@ -101,7 +101,7 @@ public class MediaReportScheduledJob : ScheduledJobBase
 
     private void UpdateItemsSum(MediaReportItemsSum itemsSum, long mediaSize, DateTime? modifiedDate, List<ContentReference> references)
     {
-        if (itemsSum.MinSize > mediaSize)
+        if (itemsSum.MinSize > mediaSize && mediaSize != IMediaSizeResolver.CannotReadMediaSize)
         {
             itemsSum.MinSize = mediaSize;
         }

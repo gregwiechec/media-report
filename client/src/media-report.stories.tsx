@@ -2,7 +2,7 @@ import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { MediaReportComponent } from "./media-report";
 import data from "./__tests__/media-report-data.json";
-import { FilterRange } from "./models";
+import { FilterRange, MediaItemDto } from "./models";
 
 export default {
     title: "Media report",
@@ -31,7 +31,7 @@ Default.args = {
     filterRange: getDefaultFilter(),
     totalCount: 10,
     onFilterChange: (minSize) => alert(minSize),
-    onPageChange: (pageIndex) => alert(pageIndex)
+    onPageChange: (pageIndex) => alert(pageIndex),
 };
 
 export const LongList = Template.bind({});
@@ -61,12 +61,12 @@ LongList.args = {
         size: (index + 1) * 1000,
         isLocalContent: index % 5 === 1,
         references: [],
-        errorText: ""
+        errorText: "",
     })),
     filterRange: getDefaultFilter(),
     totalCount: 500,
     onFilterChange: (minSize) => alert(minSize),
-    onPageChange: (pageIndex: number) => alert(pageIndex)
+    onPageChange: (pageIndex: number) => alert(pageIndex),
 };
 
 export const Empty = Template.bind({});
@@ -75,5 +75,31 @@ Empty.args = {
     filterRange: getDefaultFilter(),
     totalCount: 0,
     onFilterChange: (minSize) => alert(minSize),
-    onPageChange: (pageIndex: number) => alert(pageIndex)
+    onPageChange: (pageIndex: number) => alert(pageIndex),
+};
+
+const getItem = (name: string, size = 100): MediaItemDto => ({
+    name: name,
+    errorText: "",
+    contentTypeName: "aaa",
+    width: size == -1 ? 0 : 100,
+    height: size === -1 ? 0 : 100,
+    contentLink: "123",
+    editUrl: "",
+    lastModified: "",
+    isLocalContent: false,
+    size: size,
+    hierarchy: [],
+    thumbnailUrl: "",
+    references: [],
+    publicUrl: "",
+});
+
+export const WithErrors = Template.bind({});
+WithErrors.args = {
+    items: [getItem("test"), getItem("test 2"), getItem("test 3", -1)],
+    filterRange: getDefaultFilter(),
+    totalCount: 100,
+    onFilterChange: (minSize) => alert(minSize),
+    onPageChange: (pageIndex: number) => alert(pageIndex),
 };
