@@ -3,16 +3,29 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { MediaReportComponent } from "./media-report";
 import data from "./__tests__/media-report-data.json";
 import { FilterRange, MediaItemDto } from "./models";
+import { action } from "@storybook/addon-actions";
 
 export default {
     title: "Media report",
     component: MediaReportComponent,
-    argTypes: {
+    args: {
         items: [],
+        onFilterChange: (
+            minSize: number,
+            maxSize: number,
+            minReferences: number,
+            maxReferences: number,
+            isLocal?: boolean,
+            showErrors?: boolean
+        ) =>
+            action(
+                `Size: ${minSize} - ${maxSize}, references: ${minReferences} - ${maxReferences}, local: ${isLocal}, show errors: ${showErrors}`
+            )(),
+        onPageChange: (pageIndex) => action("pageIndex: " + pageIndex)(),
     },
 } as ComponentMeta<typeof MediaReportComponent>;
 
-const getDefaultFilter = (): FilterRange => ({
+const getDefaultFilter = (hasErrors = false): FilterRange => ({
     minSize: 250,
     maxSize: 2133232,
 
@@ -21,6 +34,7 @@ const getDefaultFilter = (): FilterRange => ({
 
     minReferences: 0,
     maxReferences: 11,
+    hasErrors: hasErrors,
 });
 
 const Template: ComponentStory<typeof MediaReportComponent> = (args) => <MediaReportComponent {...args} />;
@@ -30,8 +44,6 @@ Default.args = {
     items: data,
     filterRange: getDefaultFilter(),
     totalCount: 10,
-    onFilterChange: (minSize) => alert(minSize),
-    onPageChange: (pageIndex) => alert(pageIndex),
 };
 
 export const LongList = Template.bind({});
@@ -65,8 +77,6 @@ LongList.args = {
     })),
     filterRange: getDefaultFilter(),
     totalCount: 500,
-    onFilterChange: (minSize) => alert(minSize),
-    onPageChange: (pageIndex: number) => alert(pageIndex),
 };
 
 export const Empty = Template.bind({});
@@ -74,8 +84,6 @@ Empty.args = {
     items: [],
     filterRange: getDefaultFilter(),
     totalCount: 0,
-    onFilterChange: (minSize) => alert(minSize),
-    onPageChange: (pageIndex: number) => alert(pageIndex),
 };
 
 const getItem = (name: string, size = 100, errorText = ""): MediaItemDto => ({
@@ -98,8 +106,6 @@ const getItem = (name: string, size = 100, errorText = ""): MediaItemDto => ({
 export const WithErrors = Template.bind({});
 WithErrors.args = {
     items: [getItem("test"), getItem("test 2"), getItem("test 3", -1, "Cannot read file")],
-    filterRange: getDefaultFilter(),
+    filterRange: getDefaultFilter(true),
     totalCount: 100,
-    onFilterChange: (minSize) => alert(minSize),
-    onPageChange: (pageIndex: number) => alert(pageIndex),
 };

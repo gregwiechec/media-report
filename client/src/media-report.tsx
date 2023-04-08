@@ -172,6 +172,7 @@ const MediaReport = () => {
         maxReferences: 0,
         minModifiedDate: new Date(),
         maxModifiedDate: new Date(),
+        hasErrors: false
     });
     const [totalCount, setTotalCount] = useState(0);
     const currentFilterValue = useRef<any>();
@@ -199,6 +200,7 @@ const MediaReport = () => {
             queryString.append("fromNumberOfReferences", currentFilterValue.current.minReferences?.toString());
             queryString.append("toNumberOfReferences", currentFilterValue.current.maxReferences?.toString());
             queryString.append("isLocalContent", currentFilterValue.current.isLocal?.toString());
+            queryString.append("showErrors", currentFilterValue.current.showErrors?.toString());
         }
         if (currentSortOrder.current) {
             queryString.append("sortBy", currentSortOrder.current.sortOrder?.toString());
@@ -220,7 +222,8 @@ const MediaReport = () => {
         maxSize: number,
         minReferences: number,
         maxReferences: number,
-        isLocal?: boolean
+        isLocal?: boolean,
+        showErrors?: boolean
     ) => {
         currentFilterValue.current = {
             minSize,
@@ -228,6 +231,7 @@ const MediaReport = () => {
             minReferences,
             maxReferences,
             isLocal,
+            showErrors
         };
         refreshItems();
     };

@@ -34,5 +34,5 @@ public class MediaReportDdsItem : IDynamicData
     /// <summary>
     /// Errors when indexing images
     /// </summary>
-    public string ErrorText { get; set; }
+    public string ErrorText { get; set; } = "";
 }

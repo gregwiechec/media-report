@@ -7,6 +7,8 @@ export interface FilterRange {
 
     minReferences: number;
     maxReferences: number;
+
+    hasErrors: boolean;
 }
 
 export interface MediaItemPath {

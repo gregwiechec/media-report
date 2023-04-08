@@ -13,8 +13,8 @@ public interface IMediaReportDdsRepository
 
     IEnumerable<MediaReportDdsItem> ListAll();
 
-    IEnumerable<MediaReportDdsItem> Search(int? sizeFrom, int? sizeTo, bool? isLocalContent, int? pageIndex,
-        int? pageSize, int? fromNumberOfReferences, int? toNumberOfReferences,
+    IEnumerable<MediaReportDdsItem> Search(int? sizeFrom, int? sizeTo, bool? isLocalContent, bool? showErrors,
+        int? pageIndex, int? pageSize, int? fromNumberOfReferences, int? toNumberOfReferences,
         string sortBy, string sortOrder, out int totalCount);
 }
 
@@ -34,8 +34,8 @@ public class MediaReportDdsRepository : IMediaReportDdsRepository
         return store.LoadAll<MediaReportDdsItem>();
     }
 
-    public IEnumerable<MediaReportDdsItem> Search(int? sizeFrom, int? sizeTo, bool? isLocalContent, int? pageIndex,
-        int? pageSize, int? fromNumberOfReferences, int? toNumberOfReferences,
+    public IEnumerable<MediaReportDdsItem> Search(int? sizeFrom, int? sizeTo, bool? isLocalContent, bool? showErrors,
+        int? pageIndex, int? pageSize, int? fromNumberOfReferences, int? toNumberOfReferences,
         string sortBy, string sortOrder, out int totalCount)
     {
         var store = GetStore();
@@ -60,7 +60,18 @@ public class MediaReportDdsRepository : IMediaReportDdsRepository
             {
                 items = items.Where(x => !x.IsLocalContent);
             }
-            
+        }
+
+        if (showErrors.HasValue)
+        {
+            if (showErrors.Value)
+            {
+                items = items.Where(x => x.ErrorText != "");
+            }
+            else
+            {
+                items = items.Where(x => x.ErrorText == "");
+            }
         }
 
         if (fromNumberOfReferences.HasValue)

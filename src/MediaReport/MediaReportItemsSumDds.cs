@@ -18,6 +18,8 @@ public class MediaReportItemsSum
 
     public int MaxReferences { get; set; }
 
+    public bool HasErrors { get; set; }
+
     public static MediaReportItemsSum Empty()
     {
         return new MediaReportItemsSum
@@ -27,7 +29,8 @@ public class MediaReportItemsSum
             MinModifiedDate = DateTime.MaxValue,
             MaxModifiedDate = DateTime.MinValue,
             MinReferences = 0,
-            MaxReferences = 0
+            MaxReferences = 0,
+            HasErrors = false
         };
     }
 }
@@ -70,6 +73,7 @@ class MediaReportItemsSumDdsRepository : IMediaReportItemsSumDdsRepository
         item.MaxModifiedDate = itemsSum.MaxModifiedDate;
         item.MinReferences = itemsSum.MinReferences;
         item.MaxReferences = itemsSum.MaxReferences;
+        item.HasErrors = itemsSum.HasErrors;
 
         store.Save(item);
     }
@@ -93,6 +97,7 @@ class MediaReportItemsSumDdsRepository : IMediaReportItemsSumDdsRepository
             MaxModifiedDate = item.MaxModifiedDate,
             MinReferences = item.MinReferences,
             MaxReferences = item.MaxReferences,
+            HasErrors = item.HasErrors,
         };
     }
 

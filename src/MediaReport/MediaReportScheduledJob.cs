@@ -9,20 +9,20 @@ using EPiServer.ServiceLocation;
 
 namespace Alloy.MediaReport;
 
-[ScheduledPlugIn(GUID = "7EFCDF8F-284B-4CCB-9C9D-98775EA018AC", DisplayName = "Media report", Restartable = true, DefaultEnabled = true,
-    IntervalLength = 1, IntervalType = ScheduledIntervalType.Days)]
+[ScheduledPlugIn(GUID = "7EFCDF8F-284B-4CCB-9C9D-98775EA018AC", DisplayName = "Media report", Description = "Builds media report",
+    Restartable = true, DefaultEnabled = true, IntervalLength = 1, IntervalType = ScheduledIntervalType.Days)]
 [ServiceConfiguration(IncludeServiceAccessor = false)]
 public class MediaReportScheduledJob : ScheduledJobBase
 {
     private bool _isStopped = false;
 
-    private IMediaReportDdsRepository _mediaReportDdsRepository;
-    private IMediaLoader _mediaLoader;
-    private IMediaReportItemsSumDdsRepository _mediaReportItemsSumDdsRepository;
-    private IMediaSizeResolver _mediaSizeResolver;
-    private IContentCapability _isLocalContent;
+    private readonly IMediaReportDdsRepository _mediaReportDdsRepository;
+    private readonly IMediaLoader _mediaLoader;
+    private readonly IMediaReportItemsSumDdsRepository _mediaReportItemsSumDdsRepository;
+    private readonly IMediaSizeResolver _mediaSizeResolver;
+    private readonly IContentCapability _isLocalContent;
     private readonly ReferencedContentResolver _referencedContentResolver;
-    private IContentLoader _contentLoader;
+    private readonly IContentLoader _contentLoader;
 
     public MediaReportScheduledJob(IMediaReportDdsRepository mediaReportDdsRepository, IMediaLoader mediaLoader,
         IMediaSizeResolver mediaSizeResolver, IEnumerable<IContentCapability> capabilities,
@@ -69,7 +69,7 @@ public class MediaReportScheduledJob : ScheduledJobBase
             _mediaReportDdsRepository.CreateOrUpdate(content.ContentLink, content.Name, modifiedDate, size,
                 isLocalContent, references, width, height, errorText);
 
-            UpdateItemsSum(itemsSum, size, modifiedDate, references);
+            UpdateItemsSum(itemsSum, size, modifiedDate, references, errorText);
 
             if (countProcessedItems % 100 == 0)
             {
@@ -99,7 +99,8 @@ public class MediaReportScheduledJob : ScheduledJobBase
         return $"Job completed ({countProcessedItems} media content processed)";
     }
 
-    private void UpdateItemsSum(MediaReportItemsSum itemsSum, long mediaSize, DateTime? modifiedDate, List<ContentReference> references)
+    private void UpdateItemsSum(MediaReportItemsSum itemsSum, long mediaSize, DateTime? modifiedDate,
+        List<ContentReference> references, string errorText)
     {
         if (itemsSum.MinSize > mediaSize && mediaSize != IMediaSizeResolver.CannotReadMediaSize)
         {
@@ -130,6 +131,11 @@ public class MediaReportScheduledJob : ScheduledJobBase
         if (itemsSum.MaxReferences < references.Count)
         {
             itemsSum.MaxReferences = references.Count;
+        }
+
+        if (!string.IsNullOrWhiteSpace(errorText))
+        {
+            itemsSum.HasErrors = true;
         }
     }
 

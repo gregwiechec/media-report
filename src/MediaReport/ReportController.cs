@@ -25,10 +25,10 @@ namespace Alloy.MediaReport
             return View();
         }
 
-        public JsonResult GetMedia(int? sizeFrom, int? sizeTo, bool? isLocalContent, int? pageIndex, int? pageSize,
+        public JsonResult GetMedia(int? sizeFrom, int? sizeTo, bool? isLocalContent, bool? showErrors, int? pageIndex, int? pageSize,
             int? fromNumberOfReferences, int? toNumberOfReferences, string sortBy, string sortOrder)
         {
-            var items = _mediaReportDdsRepository.Search(sizeFrom, sizeTo, isLocalContent,
+            var items = _mediaReportDdsRepository.Search(sizeFrom, sizeTo, isLocalContent, showErrors,
                 pageIndex, pageSize, fromNumberOfReferences, toNumberOfReferences, sortBy, sortOrder, out var totalCount).ToList();
             var result = items.Select(_mediaDtoConverter.Convert).ToList();
 
