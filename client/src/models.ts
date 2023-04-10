@@ -38,3 +38,7 @@ export interface MediaItemDto {
     references: MediaItemReference[];
     errorText?: string;
 }
+
+export interface MediaReportSettings {
+    mediaReportScheduledJobUrl: string;
+}

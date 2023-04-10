@@ -1,44 +1,41 @@
-using EPiServer.Shell.Web.Mvc;
+﻿using EPiServer.Shell.Web.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Alloy.MediaReport
+namespace Alloy.MediaReport;
+
+[Authorize(Roles = "CmsAdmin,WebAdmins,Administrators")]
+public class ReportController : Controller
 {
-    [Authorize(Roles = "CmsAdmin,WebAdmins,Administrators")]
-    public class ReportController : Controller
+    private readonly MediaDtoConverter _mediaDtoConverter;
+    private readonly IMediaReportDdsRepository _mediaReportDdsRepository;
+    private readonly IMediaReportItemsSumDdsRepository _mediaReportItemsSumDdsRepository;
+    private readonly ISettingsResolver _settingsResolver;
+
+    public ReportController(MediaDtoConverter mediaDtoConverter,
+        IMediaReportDdsRepository mediaReportDdsRepository,
+        IMediaReportItemsSumDdsRepository mediaReportItemsSumDdsRepository, ISettingsResolver settingsResolver)
     {
-        private readonly MediaDtoConverter _mediaDtoConverter;
-        private readonly IMediaReportDdsRepository _mediaReportDdsRepository;
-        private readonly IMediaReportItemsSumDdsRepository _mediaReportItemsSumDdsRepository;
+        _mediaDtoConverter = mediaDtoConverter;
+        _mediaReportDdsRepository = mediaReportDdsRepository;
+        _mediaReportItemsSumDdsRepository = mediaReportItemsSumDdsRepository;
+        _settingsResolver = settingsResolver;
+    }
 
-        public ReportController(MediaDtoConverter mediaDtoConverter,
-            IMediaReportDdsRepository mediaReportDdsRepository,
-            IMediaReportItemsSumDdsRepository mediaReportItemsSumDdsRepository)
-        {
-            _mediaDtoConverter = mediaDtoConverter;
-            _mediaReportDdsRepository = mediaReportDdsRepository;
-            _mediaReportItemsSumDdsRepository = mediaReportItemsSumDdsRepository;
-        }
+    public IActionResult Index()
+    {
+        return View(_settingsResolver.Get());
+    }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+    public JsonResult GetMedia(int? sizeFrom, int? sizeTo, bool? isLocalContent, bool? showErrors, int? pageIndex, int? pageSize,
+        int? fromNumberOfReferences, int? toNumberOfReferences, string sortBy, string sortOrder)
+    {
+        var items = _mediaReportDdsRepository.Search(sizeFrom, sizeTo, isLocalContent, showErrors,
+            pageIndex, pageSize, fromNumberOfReferences, toNumberOfReferences, sortBy, sortOrder, out var totalCount).ToList();
+        var result = items.Select(_mediaDtoConverter.Convert).ToList();
 
-        public JsonResult GetMedia(int? sizeFrom, int? sizeTo, bool? isLocalContent, bool? showErrors, int? pageIndex, int? pageSize,
-            int? fromNumberOfReferences, int? toNumberOfReferences, string sortBy, string sortOrder)
-        {
-            var items = _mediaReportDdsRepository.Search(sizeFrom, sizeTo, isLocalContent, showErrors,
-                pageIndex, pageSize, fromNumberOfReferences, toNumberOfReferences, sortBy, sortOrder, out var totalCount).ToList();
-            var result = items.Select(_mediaDtoConverter.Convert).ToList();
+        var mediaReportItemsSum = _mediaReportItemsSumDdsRepository.GetSum();
 
-            var mediaReportItemsSum = _mediaReportItemsSumDdsRepository.GetSum();
-
-            return new JsonDataResult(new {items = result, filterRange = mediaReportItemsSum, totalCount});
-        }
+        return new JsonDataResult(new {items = result, filterRange = mediaReportItemsSum, totalCount});
     }
 }
-
-
-//TODO: get report root
-//TODO: get report should analyze descendants

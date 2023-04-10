@@ -1,7 +1,9 @@
-﻿@{
+﻿@model Alloy.MediaReport.ReportSettings;
+@{
     Layout = null;
 }
 
+@using System.Text.Json
 @using EPiServer.Framework.Web.Resources
 @using EPiServer.Shell.Navigation
 
@@ -27,7 +29,7 @@
         <div @Html.ApplyPlatformNavigation()>
             <div class="container">
                 <h1>Media report</h1>
-                <div id="media-report-root"></div>
+            <div id="media-report-root" data-settings="@System.Text.Json.JsonSerializer.Serialize(Model, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase })"></div>
             </div>
         </div>
 

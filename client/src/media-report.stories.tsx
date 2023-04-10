@@ -1,6 +1,6 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { MediaReportComponent } from "./media-report";
+import MediaReportComponent from "./media-report-component";
 import data from "./__tests__/media-report-data.json";
 import { FilterRange, MediaItemDto } from "./models";
 import { action } from "@storybook/addon-actions";
@@ -21,7 +21,10 @@ export default {
             action(
                 `Size: ${minSize} - ${maxSize}, references: ${minReferences} - ${maxReferences}, local: ${isLocal}, show errors: ${showErrors}`
             )(),
-        onPageChange: (pageIndex) => action("pageIndex: " + pageIndex)(),
+        onPageChange: (pageIndex: number) => action("pageIndex: " + pageIndex)(),
+        settings: {
+            mediaReportScheduledJobUrl: ""
+        }
     },
 } as ComponentMeta<typeof MediaReportComponent>;
 
