@@ -1,4 +1,4 @@
-﻿using EPiServer;
+using EPiServer;
 using EPiServer.Cms.Shell.UI.Rest.Capabilities;
 using EPiServer.Cms.Shell.UI.Rest.Internal;
 using EPiServer.Core;
@@ -7,7 +7,7 @@ using EPiServer.PlugIn;
 using EPiServer.Scheduler;
 using EPiServer.ServiceLocation;
 
-namespace Alloy.MediaReport;
+namespace Alloy.MediaReport.ScheduledJob;
 
 [ScheduledPlugIn(GUID = "7EFCDF8F-284B-4CCB-9C9D-98775EA018AC", DisplayName = "Media report", Description = "Builds media report",
     Restartable = true, DefaultEnabled = true, IntervalLength = 1, IntervalType = ScheduledIntervalType.Days)]
@@ -23,11 +23,13 @@ public class MediaReportScheduledJob : ScheduledJobBase
     private readonly IContentCapability _isLocalContent;
     private readonly ReferencedContentResolver _referencedContentResolver;
     private readonly IContentLoader _contentLoader;
+    private readonly IMediaHierarchyRootResolver _mediaHierarchyRootResolver;
 
     public MediaReportScheduledJob(IMediaReportDdsRepository mediaReportDdsRepository, IMediaLoader mediaLoader,
         IMediaSizeResolver mediaSizeResolver, IEnumerable<IContentCapability> capabilities,
         IContentLoader contentLoader, ReferencedContentResolver referencedContentResolver,
-        IMediaReportItemsSumDdsRepository mediaReportItemsSumDdsRepository)
+        IMediaReportItemsSumDdsRepository mediaReportItemsSumDdsRepository,
+        IMediaHierarchyRootResolver mediaHierarchyRootResolver)
     {
         _mediaReportDdsRepository = mediaReportDdsRepository;
         _mediaLoader = mediaLoader;
@@ -36,6 +38,7 @@ public class MediaReportScheduledJob : ScheduledJobBase
         _contentLoader = contentLoader;
         _referencedContentResolver = referencedContentResolver;
         _mediaReportItemsSumDdsRepository = mediaReportItemsSumDdsRepository;
+        _mediaHierarchyRootResolver = mediaHierarchyRootResolver;
         IsStoppable = true;
     }
 
@@ -49,7 +52,7 @@ public class MediaReportScheduledJob : ScheduledJobBase
         var itemsSum = MediaReportItemsSum.Empty();
 
         // add or update all media
-        var mediaList = _mediaLoader.GetAllMedia();
+        var mediaList = _mediaLoader.GetAllMedia(_mediaHierarchyRootResolver.GetRoot());
         foreach (var content in mediaList)
         {
             countProcessedItems++;
@@ -59,7 +62,7 @@ public class MediaReportScheduledJob : ScheduledJobBase
             }
 
             updatedList.Add(content.ContentLink);
-            DateTime? modifiedDate = (content is IChangeTrackable changeTrackable) ? changeTrackable.Changed : null;
+            DateTime? modifiedDate = content is IChangeTrackable changeTrackable ? changeTrackable.Changed : null;
 
             var softLinks = _referencedContentResolver.GetReferenceList(content.ContentLink);
             var references = softLinks.Select(x => x.ContentLink).ToList();
@@ -99,7 +102,7 @@ public class MediaReportScheduledJob : ScheduledJobBase
         return $"Job completed ({countProcessedItems} media content processed)";
     }
 
-    private void UpdateItemsSum(MediaReportItemsSum itemsSum, long mediaSize, DateTime? modifiedDate,
+    private static void UpdateItemsSum(MediaReportItemsSum itemsSum, long mediaSize, DateTime? modifiedDate,
         List<ContentReference> references, string errorText)
     {
         if (itemsSum.MinSize > mediaSize && mediaSize != IMediaSizeResolver.CannotReadMediaSize)

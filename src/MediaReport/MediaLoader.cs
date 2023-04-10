@@ -1,4 +1,4 @@
-﻿using EPiServer;
+using EPiServer;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
 
@@ -9,23 +9,22 @@ namespace Alloy.MediaReport;
 /// </summary>
 public interface IMediaLoader
 {
-    IEnumerable<IContentMedia> GetAllMedia();
+    IEnumerable<IContentMedia> GetAllMedia(ContentReference rootPage);
 }
 
 [ServiceConfiguration(typeof(IMediaLoader))]
-public class MediaLoader : IMediaLoader
+internal class MediaLoader : IMediaLoader
 {
     private readonly IContentLoader _contentLoader;
+    private IMediaLoaderFilter _mediaLoaderFilter;
 
-    public MediaLoader(IContentLoader contentLoader)
+    public MediaLoader(IContentLoader contentLoader, IMediaLoaderFilter mediaLoaderFilter)
     {
         _contentLoader = contentLoader;
+        _mediaLoaderFilter = mediaLoaderFilter;
     }
 
-    public IEnumerable<IContentMedia> GetAllMedia()
-    {
-        return LoadChildren(ContentReference.RootPage);
-    }
+    public IEnumerable<IContentMedia> GetAllMedia(ContentReference rootPage) => LoadChildren(rootPage);
 
     private IEnumerable<IContentMedia> LoadChildren(ContentReference parentPageId)
     {
@@ -35,6 +34,11 @@ public class MediaLoader : IMediaLoader
             if (content is IContentMedia media)
             {
                 yield return media;
+            }
+
+            if (!_mediaLoaderFilter.ShouldLoadChildren(content))
+            {
+                continue;
             }
 
             var descendants = LoadChildren(content.ContentLink);

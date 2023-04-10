@@ -1,4 +1,4 @@
-﻿using EPiServer.Shell.Web.Mvc;
+using EPiServer.Shell.Web.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,3 +38,7 @@ namespace Alloy.MediaReport
         }
     }
 }
+
+
+//TODO: get report root
+//TODO: get report should analyze descendants
