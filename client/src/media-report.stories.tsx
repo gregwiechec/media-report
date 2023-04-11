@@ -46,7 +46,7 @@ export const Default = Template.bind({});
 Default.args = {
     items: data,
     filterRange: getDefaultFilter(),
-    totalCount: 10,
+    totalCount: 11111,
 };
 
 export const LongList = Template.bind({});

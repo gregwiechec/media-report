@@ -9,7 +9,7 @@ interface Paging {
 export const ReportPageSize = 100;
 
 export default function Paging({ totalCount, onPageChange }: Paging) {
-    const pageCount = totalCount / ReportPageSize;
+    const pageCount = Math.ceil(totalCount / ReportPageSize);
 
     if (pageCount <= 1) {
         return null;
