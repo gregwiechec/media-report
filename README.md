@@ -28,11 +28,65 @@ It should be noted that the data displayed in the report are not always up to da
 
 By default, when building a report, a content media search starts from Root. This behavior can be changed by implementing IMediaHierarchyRootResolver service.
 
+```c#
+[ModuleDependency(typeof(InitializationModule))]
+public class CustomMediaReportInitialization : IConfigurableModule
+{
+    public void ConfigureContainer(ServiceConfigurationContext context)
+    {
+        context.ConfigurationComplete += (o, e) =>
+        {
+            context.Services.AddTransient<IMediaHierarchyRootResolver, CustomMediaHierarchyRootResolver>();
+        };
+    }
+ 
+    public void Initialize(InitializationEngine context) { }
+ 
+    public void Uninitialize(InitializationEngine context) { }
+ 
+    public void Preload(string[] parameters){}
+}
+ 
+public class CustomMediaHierarchyRootResolver : IMediaHierarchyRootResolver
+{
+    public ContentReference GetRoot()
+    {
+        return SiteDefinition.Current.SiteAssetsRoot;
+    }
+}
+```
 
 ### Setting media filter
 
 Not all files should be saved in DDS. For example, if there is an external media provider registered in the media tree, then we should not search it. By implementing the IMediaLoaderFilter interface, we can define how the media should be filtered.
 
+```c#
+[ModuleDependency(typeof(InitializationModule))]
+public class CustomMediaReportInitialization : IConfigurableModule
+{
+    public void ConfigureContainer(ServiceConfigurationContext context)
+    {
+        context.ConfigurationComplete += (o, e) =>
+        {
+            context.Services.AddTransient<IMediaLoaderFilter, CustomMediaLoaderFilter>();
+        };
+    }
+ 
+    public void Initialize(InitializationEngine context) { }
+ 
+    public void Uninitialize(InitializationEngine context) { }
+ 
+    public void Preload(string[] parameters){}
+}
+ 
+public class CustomMediaLoaderFilter : IMediaLoaderFilter
+{
+    public bool ShouldLoadChildren(IContent content)
+    {
+        return content.ContentLink.ProviderName != "videos";
+    }
+}
+```
 ## Develop
 
 * setup 
