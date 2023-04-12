@@ -5,6 +5,8 @@ Extension for Optimizely that shows media report
 
 The media report displays a list with useful statistics about the files and allows to sort and filter the results.
 
+![Media report plugin overview](/assets/media_report_plugin_overview.png "Media report plugin overview")
+
 In the list you can find the following information:
 
 * **Name and thumbnail** – thumbnail with preview in tooltip and link the edit mode
@@ -23,6 +25,8 @@ In addition, the report has a few filters:
 
 The report does not display data coming directly from ContentRepository. File size, number of references and other statistics cannot be calculated quickly. Therefore, the report data is stored and read from the DDS, which is written to in Media Report ScheduledJob.
 It should be noted that the data displayed in the report are not always up to date and depends on how often the scheduled job is run.
+
+![Media report scheduled job](/assets/media-report-scheduled-job.png "Media report scheduled job")
 
 ### Setting root
 
