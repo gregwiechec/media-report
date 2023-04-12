@@ -1,4 +1,4 @@
-using EPiServer.Core;
+﻿using EPiServer.Core;
 using EPiServer.ServiceLocation;
 
 namespace Alloy.MediaReport;
@@ -13,9 +13,9 @@ public interface IMediaLoaderFilter
 }
 
 [ServiceConfiguration(typeof(IMediaLoaderFilter))]
-internal class MediaLoaderFilter: IMediaLoaderFilter
+public class MediaLoaderFilter: IMediaLoaderFilter
 {
-    IContentProviderManager _providerManager;
+    readonly IContentProviderManager _providerManager;
 
     public MediaLoaderFilter(IContentProviderManager providerManager)
     {
